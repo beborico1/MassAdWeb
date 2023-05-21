@@ -1,0 +1,14 @@
+.continuar-button {
+    width: 300px;
+    padding: 10px;
+    background-color: #b93a3f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+.continuar-button:hover {
+  background-color: #a82c31;
+}
+  
