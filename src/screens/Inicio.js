@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { auth } from '../helpers/firebase';
-import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Inicio = ({history}) => {
@@ -9,15 +8,6 @@ const Inicio = ({history}) => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      // Redirigir a la página de inicio de sesión u otra página
-    } catch (error) {
-      console.log('Error al cerrar sesión:', error);
-    }
-  };
 
   const getCampaigns = () => {
     setLoading(true);

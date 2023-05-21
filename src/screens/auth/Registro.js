@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserCompleteContext from '../../helpers/UserCompleteContext'
-import i18n from 'i18next'; // Usa i18next o alguna otra librería de internacionalización que funcione con React
 import { auth, db } from '../../helpers/firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore';
