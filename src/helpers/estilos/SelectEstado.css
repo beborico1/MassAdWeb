@@ -1,5 +1,6 @@
 /* SelectEstado.css */
 .select-estado {
+    box-sizing: border-box; /* Agrega esta línea */
     width: 300px;
     margin-top: 20px;
     border-radius: 4px;

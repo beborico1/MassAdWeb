@@ -5,6 +5,7 @@
 }
 
 .empresa-input {
+  box-sizing: border-box; /* Agrega esta línea */
   width: 300px;
   padding: 10px;
   margin-bottom: 10px;

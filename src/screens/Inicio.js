@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { auth } from '../helpers/firebase';
 import { useNavigate } from 'react-router-dom';
+import '../helpers/estilos/Inicio.css'
+import { FaUser } from 'react-icons/fa';
 
 const Inicio = ({history}) => {
   const [campaigns, setCampaigns] = useState([]);
@@ -42,6 +44,10 @@ const Inicio = ({history}) => {
 
   return (
     <div className="container">
+      <button className="profileButton" onClick={() => navigate('/perfil-usuario')}>
+        <FaUser size={20} style={{marginRight: '10px'}}/> Ver Perfil
+      </button>
+
       <h1 className="titleText">Campañas:</h1>
 
       {loading ? 
@@ -63,10 +69,6 @@ const Inicio = ({history}) => {
       }
       
       <button className="createButton" onClick={handleCreateCampaign}>+ Crear Campaña</button>
-
-      <button onClick={() => navigate('/perfil-usuario')}>
-        Ver Perfil
-      </button>
 
     </div>
   );

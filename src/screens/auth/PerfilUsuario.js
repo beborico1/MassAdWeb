@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { auth } from '../../helpers/firebase'
 import { useNavigate } from 'react-router-dom'
+import '../../helpers/estilos/PerfilUsuario.css'
+import { FaRegListAlt, FaSignOutAlt } from 'react-icons/fa'
 
 const PerfilUsuario = () => {
 
@@ -33,17 +35,17 @@ const PerfilUsuario = () => {
     <div className="container">
       <h1 className="titleText">Perfil Usuario</h1>
 
-      <button
-        className="logoutButton"
-        onClick={handleCerrarSesion}
-      >
-        Cerrar Sesión
-      </button>
-
-      <button onClick={() => navigate('/inicio')}>
+      <button className="campaignButton" onClick={() => navigate('/inicio')}>
+        <FaRegListAlt size={20} style={{ marginRight: '10px' }} />
         Ver Campañas
       </button>
-    </div>
+  
+      <button className="logoutButton" onClick={handleCerrarSesion}>
+        Cerrar Sesión
+        <FaSignOutAlt size={20} style={{ marginLeft: '10px' }} />
+      </button>
+
+    </div>  
   )
 }
 
