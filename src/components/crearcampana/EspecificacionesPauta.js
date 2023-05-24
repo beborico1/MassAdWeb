@@ -1,18 +1,15 @@
 import React from 'react';
-import { globalStyles } from '../../helpers/styles';
-import colors from '../../helpers/colors';
+//import '../../helpers/estilos/crearcampana/EspecificacionesPauta.css';
 
 const EspecificacionesPauta = ({ pautaSpecs, setPautaSpecs }) => {
     return (
-        <div style={{ width: '100%' }}>
-            <textarea
-                style={{ ...globalStyles.input, width: '100%' }}
-                placeholder='Escribe aquí las especificaciones de la pauta...'
-                rows={4}
-                onChange={(e) => setPautaSpecs(e.target.value)}
-                value={pautaSpecs}
-            />
-        </div>
+        <textarea
+            className='w-full max-w-2xl p-4 border-none rounded-lg shadow-sm text-base resize-none box-border focus:outline-none focus:shadow-md'
+            placeholder='Escribe aquí las especificaciones de la pauta...'
+            rows={4}
+            onChange={(e) => setPautaSpecs(e.target.value)}
+            value={pautaSpecs}
+        />
     );
 };
 

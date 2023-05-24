@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../helpers/firebase'
-import '../../helpers/estilos/InicioSesion.css'
 import { useNavigate } from 'react-router-dom'
 import UserCompleteContext from '../../helpers/UserCompleteContext'
 
@@ -56,13 +55,13 @@ const InicioSesion = () => {
   }
 
   return (
-    <div className="center">
-      <img src={require('../../assets/logo.png')} alt="Logo" className="logo" />
+    <div className="flex flex-col items-center justify-center h-screen text-center bg-gray-200">
+      <img src={require('../../assets/logo.png')} alt="Logo" className="h-32" />
 
-      <h1 className="titleText"> Inicio de Sesión </h1>
+      <h1 className="text-gray-900 text-4xl mb-8  text-center"> Inicio de Sesión </h1>
       
       <input
-        className="input"
+        className="w-80 p-2 mb-2 border border-gray-300 rounded-md"
         placeholder='Correo electrónico'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -70,7 +69,7 @@ const InicioSesion = () => {
       />
 
       <input
-        className="input"
+        className="w-80 p-2 mb-2 border border-gray-300 rounded-md"
         placeholder='Contraseña'
         type="password"
         value={password}
@@ -78,20 +77,22 @@ const InicioSesion = () => {
       />
 
       {error && (
-          <p className="errorText">{error}</p>
+          <p className="text-red-500 m-2">{error}</p>
       )}
 
-      <button className="button" onClick={handleInicioSesion} >
+      <button className="w-80 p-2 bg-adstream-500 hover:bg-adstream-300 text-white border-none rounded-md cursor-pointer text-xl font-semibold shadow-md hover:shadow-lg transition duration-400" onClick={handleInicioSesion} >
         {loading ? ( 
           <div className="spinner"></div>
         ) : 'Iniciar Sesión'
         }
       </button>
-
-      <p>o</p>
+      
+      <div className="divider">
+        <p className="m-3 select-none">o</p>
+      </div>
 
       <button
-        className="registerButton"
+        className="bg-transparent border-none text-adstream-600 cursor-pointer hover:underline hover:bg-transparent"
         onClick={handleRegister}
       >
         Registrarse

@@ -1,15 +1,14 @@
 import React from 'react';
-import '../../helpers/estilos/DemograficosForm.css'
 
 const DemograficosForm = ({ciudad, setCiudad, codigoPostal, setCodigoPostal}) => {
   return (
-    <div className="demograficos-form-container">
+    <div className="flex flex-col mb-5 w-full max-w-2xl">
       <input
         placeholder="Ingresa tu ciudad"
         value={ciudad}
         onChange={e => setCiudad(e.target.value)}
         autoCapitalize="words"
-        className='demograficos-input'
+        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl shadow-sm'
       />
 
       <input
@@ -17,7 +16,7 @@ const DemograficosForm = ({ciudad, setCiudad, codigoPostal, setCodigoPostal}) =>
         value={codigoPostal}
         onChange={e => setCodigoPostal(e.target.value)}
         type="number"
-        className='demograficos-input'
+        className='box-border p-2 border border-gray-300 rounded-md w-full max-w-2xl shadow-sm'
       />
     </div>
   )

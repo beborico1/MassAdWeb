@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../helpers/estilos/SelectEstado.css';
 
 const SelectSexo = ({ sexo, setSexo }) => {
     const handleChange = (event) => {
@@ -10,7 +9,7 @@ const SelectSexo = ({ sexo, setSexo }) => {
         <select
             value={sexo}
             onChange={handleChange}
-            className='select-estado'
+            className='box-border  w-full max-w-2xl  mt-5 rounded-md p-2 border border-gray-300 text-base mb-5'
         >
             <option value="">Seleccione el Sexo</option>
             <option value="Masculino">Masculino</option>

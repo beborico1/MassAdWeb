@@ -1,13 +1,11 @@
 import React from 'react';
-import { globalStyles } from '../helpers/styles';
-import colors from '../helpers/colors';
 
 const RegresarButton = ({etapa, handleContinuar}) => {
   return (
     <>
         {etapa > 1 && (
-            <button onClick={() => handleContinuar(-1)}>
-              <p style={{ ...globalStyles.coloredText, marginTop: '20px' }}>Regresar</p>
+            <button onClick={() => handleContinuar(-1)} className="bg-transparent border-none text-adstream-600 cursor-pointer hover:underline hover:bg-transparent">
+              Regresar
             </button>
         )}
     </>

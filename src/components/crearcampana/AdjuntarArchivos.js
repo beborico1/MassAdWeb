@@ -1,6 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import colors from '../../helpers/colors';
-import { globalStyles } from '../../helpers/styles';
 import { ThreeDots } from 'react-loader-spinner';
 import { useDropzone } from 'react-dropzone';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -75,27 +73,33 @@ const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
     }  
 
     return (
-        <div {...getRootProps()}>
+        <div {...getRootProps()} className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-300 rounded bg-gray-100 cursor-pointer transition-colors ease-in-out duration-300 hover:border-adstream-500 w-full max-w-2xl">
             <input {...getInputProps()} />
             {
                 isDragActive ?
-                <p>Drop the files here ...</p> :
-                <button disabled={uploading} style={{ backgroundColor: colors.adstream }}>
+                <p>Suelta los archivos aquí ...</p> :
+                <button disabled={uploading} className="mt-2 px-5 py-2 bg-adstream-500 text-white font-medium rounded cursor-pointer transition-colors duration-300 hover:bg-adstream-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Adjuntar archivos
                 </button>
             }
 
             {uploading && (
-                <div style={{ paddingVertical: 10 }}>
-                    <p style={[globalStyles.coloredText, { paddingVertical: 20, textAlign: 'center' }]}>
+                <div className="flex flex-col items-center mt-5">
+                    <p>
                         {transferred.toFixed(2)}% completado!
                     </p>
-                    {!adjuntos && <ThreeDots color={colors.adstream} height={80} width={80} />}
+                    <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden mt-2.5">
+                        <div 
+                            className="h-full bg-adstream-500" 
+                            style={{ width: `${transferred.toFixed(2)}%` }}
+                        />
+                    </div>
+                    {!adjuntos && <ThreeDots color={'#b93a3f'} height={80} width={80} />}
                 </div>
             )}
 
             {adjuntos.length > 0 && (
-                <p style={[globalStyles.titleText, { textAlign: 'center', color: 'gray', paddingVertical: 10 }]}>
+                <p className="mt-5 ml-0 text-center text-green-700 font-medium">
                     Archivo {adjuntos.length} subido correctamente!
                 </p>
             )}

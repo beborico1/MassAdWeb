@@ -1,73 +1,190 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import AdjuntoItem from '../../components/AdjuntoItem';
+import { deleteObject, ref } from 'firebase/storage';
+import { db, storage } from '../../helpers/firebase';
+import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+//import '../../helpers/estilos/DetalleCampana.css'
+import Modal from '../../components/Modal';
+import { FaArrowLeft, FaPencilAlt, FaPlayCircle } from 'react-icons/fa';
 
 export default function DetalleCampana() {
+  const location = useLocation();
+  const campaign = location.state.campaign;
+
+  const navigate = useNavigate();
+
+  const [campana, setCampana] = useState(null);
+  const [adjuntos, setAdjuntos] = useState([]);
+  const [borrando, setBorrando] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedAdjunto, setSelectedAdjunto] = useState(null);
+
+  useEffect(() => {
+    setAdjuntos(campaign?.adjuntos || []);
+  }, [campana]);
+
+  const handleDeleteAdjunto = async (adjunto) => {
+    if (borrando) {
+      return;
+    }
+    
+    setSelectedAdjunto(adjunto);
+    setShowModal(true);
+  }
+
+  const confirmDeleteAdjunto = async () => {
+    
+    // continue your delete process here
+    setBorrando(true);
+    // Primero, elimina el archivo de Google Storage
+    const storageRef = ref(storage, selectedAdjunto.path);
+    
+    try {
+      await deleteObject(storageRef);
+      console.log('Documento eliminado correctamente');
+    } catch (error) {
+      console.log('Error al eliminar el documento: ', error);
+    }
+
+    // Luego, actualiza el documento en Firestore
+    const campanaRef = doc(db, 'campaigns', campaign.id);
+    try {
+      await updateDoc(campanaRef, {
+        adjuntos: arrayRemove(selectedAdjunto)
+      });
+      console.log('Documento actualizado correctamente');
+    } catch (error) {
+      setBorrando(false);
+      console.log('Error al actualizar el documento: ', error);
+    }
+
+    campaign.adjuntos = campaign.adjuntos.filter(item => item !== selectedAdjunto);
+    setAdjuntos(adjuntos.filter(item => item !== selectedAdjunto));
+    setBorrando(false);
+    setShowModal(false);
+  }
+
+  // rest of your code
+
   return (
-    <div>DetalleCampana</div>
+    <>
+      <div className="header flex justify-between bg-gray-200">
+        <div className="left flex">
+          <button onClick={() => window.history.back()} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+            <FaArrowLeft size={20} style={{marginRight: '10px'}}/> Inicio
+          </button>
+        </div>
+        <div className="right flex">
+          <button onClick={() => navigate('/editar-campana', { state: { campaign } })} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+            <FaPencilAlt size={20} style={{marginRight: '10px'}}/> Editar Campaña
+          </button>
+          <button onClick={() => navigate('/produccion-spot')} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+            <FaPlayCircle size={20} style={{marginRight: '10px'}}/> Produccion Spot
+          </button>
+        </div>
+      </div>
+
+      <div className="p-8 bg-gray-200 overflow-y-scroll">
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Nombre:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.nombre}</p>
+        </div>
+    
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Metas:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.metas}</p>
+        </div>
+    
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Medio:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.medio}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Servicio:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.servicio}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Status:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.status}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Pauta:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.pauta}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.presupuesto}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Producción:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.produccion}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Detalles de la Producción:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.produccionDetalles}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Creada Por:</h1>
+          <p className="text-base text-gray-700 ml-5">{campaign.creadaPor}</p>
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Estaciones:</h1>
+          {Object.keys(campaign.estaciones).map((estacion, index) => (
+            <p className="text-base text-gray-700 ml-5" key={index}>{estacion}: {campaign.estaciones[estacion] ? 'Si' : 'No'}</p>
+          ))}
+        </div>
+
+        <div className="p-2 border border-gray-300 rounded-lg shadow-md bg-white pb-5 pt-5">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Adjuntos:</h1>
+          
+          {borrando && <p className="text-base text-gray-700 ml-5">Borrando...</p>}
+          
+          {adjuntos.length === 0 ? <div className="text-center p-20 text-base text-gray-500">No hay adjuntos</div> :
+            adjuntos.map((adjunto, index) => (
+              <AdjuntoItem adjunto={adjunto} index={index} key={index} handleDeleteAdjunto={handleDeleteAdjunto}/>
+            ))
+          }
+        </div>
+
+        {showModal && 
+          <Modal
+            title="Confirmar Eliminación"
+            onClose={() => setShowModal(false)}
+            onConfirm={confirmDeleteAdjunto}
+          >
+            <p className="text-base text-gray-700">¿Estás seguro de que quieres eliminar este adjunto?</p>
+          </Modal>
+        }
+
+      </div>
+    </>
+    
   )
 }
 
-// import React, { useEffect, useState } from 'react'
-// import { useNavigate, useParams } from 'react-router-dom'
-// import { db, storage } from '../../helpers/firebase'
-// import { arrayRemove, doc, updateDoc } from 'firebase/firestore'
-// import { deleteObject, ref } from 'firebase/storage'
-// import AdjuntoItem from '../../components/AdjuntoItem'
+// 2. **Add Loading Indicator**: When the data is loading, show a loading indicator. This could be a simple spinner or a more complex skeleton screen that shows the shape of the content before it's loaded.
 
-// const DetalleCampana = () => {
-//   const navigate = useNavigate();  // Utiliza useNavigate en lugar de useHistory
-//   const { id } = useParams();
-//   const [campana, setCampana] = useState(null);
-//   const [adjuntos, setAdjuntos] = useState([]);
-//   const [borrando, setBorrando] = useState(false);
+// 4. **Implement Error Handling UI**: Currently, if there's an error in deleting an attachment, it's only logged in the console. Show a toast message or an error message near the attachment to inform the user.
 
-//   useEffect(() => {
-//     // Fetch the campaign from the database using the id from the URL
-//     // and update the state accordingly.
-//     // Code for fetching goes here...
-//   }, [id]);
+// 5. **Enhance Button Styles**: The current buttons are fairly basic. Consider adding more effects, like a subtle box-shadow for a 3D effect, or a transition effect to smoothly change color on hover.
 
-//   useEffect(() => {
-//     setAdjuntos(campana?.adjuntos || []);
-//   }, [campana]);
+// 6. **Organize Campaign Details**: Instead of having all the campaign details under each other, organize related details into sections. For example, 'Metas', 'Medio', and 'Servicio' can be under a section called 'Campaign Overview'. 
 
-//   const handleDeleteAdjunto = async (adjunto) => {
-//     // ...rest of your code
-//   }
+// 7. **Responsive Design**: Make sure the design looks good on all screen sizes. For smaller screens, consider making the content scrollable or use a collapsible layout.
 
-//   if (!campana) return null; // Or a loading spinner...
+// 8. **Add Empty State Illustrations**: If there are no attachments, display a friendly illustration with some helpful text, instead of just a 'No hay adjuntos' message.
 
-//   return (
-//     <div>
-//       <div>
-//         <button onClick={() => navigate(`/editarCampana/${campana.id}`)}>Editar Campaña</button>
-//         <button onClick={() => navigate(`/produccionSpot`)}>Produccion Spot</button>
-//       </div>
+// 9. **Use Tooltips**: For information that might need more context, consider using tooltips. They can provide helpful information when users hover over or focus on an item.
 
-//       <h1>Nombre: {campana.nombre}</h1>
-//       <h1>Metas: {campana.metas}</h1>
-//       <h1>Medio: {campana.medio}</h1>
-//       <h1>Servicio: {campana.servicio}</h1>
-//       <h1>Status: {campana.status}</h1>
-//       <h1>Pauta: {campana.pauta}</h1>
-//       <h1>Presupuesto: {campana.presupuesto}</h1>
-//       <h1>Producción: {campana.produccion}</h1>
-//       <h1>Detalles de la Producción: {campana.produccionDetalles}</h1>
-//       <h1>Creada Por: {campana.creadaPor}</h1>
+// 10. **Improve Readability**: Increase the line-height and limit the maximum line length (around 60-70 characters is often recommended for a single column of text). This makes it easier for users to read the content.
 
-//       <h1>Estaciones:</h1>
-//       {Object.keys(campana.estaciones).map((estacion, index) => (
-//         <p key={index}>{estacion}: {campana.estaciones[estacion] ? 'Si' : 'No'}</p>
-//       ))}
-
-//       <h1>Adjuntos:</h1>
-
-//       {borrando && <p>Borrando...</p>}
-
-//       {adjuntos.map((adjunto, index) => (
-//         <AdjuntoItem adjunto={adjunto} index={index} key={index} handleDeleteAdjunto={handleDeleteAdjunto}/>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default DetalleCampana

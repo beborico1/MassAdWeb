@@ -1,20 +1,21 @@
 import React from 'react';
-import { globalStyles } from '../helpers/styles';
-import { IoTrashOutline } from 'react-icons/io5'; // Import correcto
+import { IoTrashOutline } from 'react-icons/io5';
 
 const AdjuntoItem = ({ adjunto, index, handleDeleteAdjunto }) => {
   return (
-    <div style={index === 0 ? { display: 'flex', alignItems: 'center', padding: '20px', width: '100%', justifyContent: 'center' } : { display: 'flex', alignItems: 'center', padding: '20px', borderTop: '1px solid', width: '100%', justifyContent: 'center' }}>
+    <div className="AdjuntoItem flex items-center justify-between py-2 border-b border-gray-300 px-3">
       <a
         href={adjunto.url}
-        style={{ ...globalStyles.coloredText, padding: '20px', paddingRight: '30px' }}
         target="_blank"
-        rel="noopener noreferrer">
+        rel="noopener noreferrer"
+        className="text-adstream-500">
         Ver archivo adjunto {index + 1}
       </a>
 
-      <button onClick={() => handleDeleteAdjunto(adjunto)} style={{ display: 'flex', alignItems: 'center', backgroundColor: 'gray', padding: '10px', borderRadius: '5px', color: 'white' }}>
-        <IoTrashOutline size={24} /> {/* Uso correcto del icono */}
+      <button
+        onClick={() => handleDeleteAdjunto(adjunto)}
+        className="flex items-center space-x-1 text-red-500 focus:outline-none hover:bg-red-100 px-1 py-2 rounded-md transition duration-300">
+        <IoTrashOutline size={24} />
         <span>Borrar</span>
       </button>
     </div>
