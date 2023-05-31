@@ -4,9 +4,10 @@ import AdjuntoItem from '../../components/AdjuntoItem';
 import { deleteObject, ref } from 'firebase/storage';
 import { db, storage } from '../../helpers/firebase';
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
-//import '../../helpers/estilos/DetalleCampana.css'
 import Modal from '../../components/Modal';
 import { FaArrowLeft, FaPencilAlt, FaPlayCircle } from 'react-icons/fa';
+import Card from '../../components/Card';
+import Title from '../../components/TitleComponent';
 
 export default function DetalleCampana() {
   const location = useLocation();
@@ -68,74 +69,39 @@ export default function DetalleCampana() {
   // rest of your code
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       <div className="header flex justify-between bg-gray-200">
         <div className="left flex">
-          <button onClick={() => window.history.back()} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
-            <FaArrowLeft size={20} style={{marginRight: '10px'}}/> Inicio
+          <button onClick={() => window.history.back()} className='px-2 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+            <FaArrowLeft size={20} className='mr-0 md:mr-2'/>
+            <span className="hidden md:inline">Inicio</span>
           </button>
         </div>
         <div className="right flex">
           <button onClick={() => navigate('/editar-campana', { state: { campaign } })} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
-            <FaPencilAlt size={20} style={{marginRight: '10px'}}/> Editar Campaña
+            <FaPencilAlt size={20} className='mr-0 md:mr-2'/>
+            <span className="hidden md:inline">Editar</span>
+          
           </button>
           <button onClick={() => navigate('/produccion-spot')} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
-            <FaPlayCircle size={20} style={{marginRight: '10px'}}/> Produccion Spot
+            <FaPlayCircle size={20} className='mr-0 md:mr-2'/>
+            <span className="hidden md:inline">Produccion Spot</span>
           </button>
         </div>
       </div>
 
-      <div className="p-8 bg-gray-200 overflow-y-scroll">
+      <div className="p-8 bg-gray-200 overflow-y-scroll overflow-x-hidden">
 
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Nombre:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.nombre}</p>
-        </div>
-    
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Metas:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.metas}</p>
-        </div>
-    
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Medio:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.medio}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Servicio:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.servicio}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Status:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.status}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Pauta:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.pauta}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.presupuesto}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Producción:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.produccion}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Detalles de la Producción:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.produccionDetalles}</p>
-        </div>
-
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Creada Por:</h1>
-          <p className="text-base text-gray-700 ml-5">{campaign.creadaPor}</p>
-        </div>
+        <Title title={campaign.nombre} />
+        <Card titulo= 'Metas:' descripcion={campaign.metas} />
+        <Card titulo='Medio:' descripcion={campaign.medio} />
+        <Card titulo='Servicio:' descripcion={campaign.servicio} />
+        <Card titulo='Status:' descripcion={campaign.status} />
+        <Card titulo='Pauta:' descripcion={campaign.pauta} />
+        <Card titulo = 'Presupuesto' descripcion={campaign.presupuesto} />
+        <Card titulo = 'Producción' descripcion={campaign.produccion} />
+        <Card titulo = 'Detalles de la Producción' descripcion={campaign.produccionDetalles} />
+        <Card titulo='Creada Por:' descripcion={campaign.creadaPor} />
 
         <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Estaciones:</h1>
@@ -165,10 +131,8 @@ export default function DetalleCampana() {
             <p className="text-base text-gray-700">¿Estás seguro de que quieres eliminar este adjunto?</p>
           </Modal>
         }
-
       </div>
-    </>
-    
+    </div>
   )
 }
 

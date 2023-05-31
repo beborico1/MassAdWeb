@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { auth } from '../helpers/firebase';
 import { useNavigate } from 'react-router-dom';
-//import '../helpers/estilos/Inicio.css'
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaInfoCircle } from 'react-icons/fa';
+import Title from '../components/TitleComponent';
+import ButtonComponent from '../components/ButtonComponent';
+import BigButtonComponent from '../components/BigButtonComponent';
 
-const Inicio = ({history}) => {
+const Inicio = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +41,7 @@ const Inicio = ({history}) => {
   };
 
   const handleCreateCampaign = () => {
-    //history.push('/crear-campana');
+    console.log('Crear campaña');
     navigate('/crear-campana');
   };
 
@@ -47,23 +49,21 @@ const Inicio = ({history}) => {
     <div className="flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden">
       <div className="flex flex-col items-center w-full max-w-3xl">
 
-          <button className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-4 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/perfil-usuario')}>
-            <FaUser size={20} className='mr-3'/> Ver Perfil
-          </button>
+        <button className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/perfil-usuario')}>
+          <FaUser size={20} className='mr-3'/> Ver Perfil
+        </button>
 
-        <h1 className="text-gray-900 text-4xl mb-4 select-none text-center">Campañas:</h1>
+        <Title title="Campañas:" />
 
         {loading ? 
-          <p className="text-gray-700 text-lg my-8">Cargando Campañas...</p> 
+          <p className="text-gray-700 text-lg my-8 select-none">Cargando Campañas...</p> 
             :
          campaigns.length !== 0 ?
-          <ul className="list-none p-0 w-full max-w-3xl max-h-96 overflow-y-scroll">
+          <ul className="list-none p-0 max-h-96 overflow-y-scroll flex flex-col items-center w-full max-w-xl mb-4">
             {campaigns.map((campaign) => (
-              <li key={campaign.id} className="flex justify-between items-center border border-gray-300 p-4 mb-4 rounded-md bg-white">
-                <p className="text-gray-700 text-lg">{campaign.nombre}</p>
-                <button className=" bg-adstream-500 hover:bg-adstream-300 text-white py-4 px-8 text-center text-base font-semibold rounded-md cursor-pointer transition duration-400" onClick={() => handleDetail(campaign)}>
-                  Detalle Campaña
-                </button>
+              <li key={campaign.id} className="border border-gray-300 rounded-lg mb-3 shadow-md bg-white pb-5 pt-5 text-gray-800 flex flex-row justify-between w-full items-center px-2 md:px-4">
+                <p className="text-xl mr-4">{campaign.nombre}</p>
+                <ButtonComponent Icon={FaInfoCircle} text="Detalle" onClick={() => handleDetail(campaign)} />
               </li>
             ))}
           </ul>
@@ -71,7 +71,11 @@ const Inicio = ({history}) => {
           <p className="text-gray-700 text-lg my-8">No hay campañas</p>
         }
 
-        <button className="bg-adstream-500 hover:bg-adstream-300 text-white py-4 px-8 text-center rounded-md cursor-pointer transition duration-400 text-xl font-semibold shadow-md mb-2 mt-2" onClick={handleCreateCampaign}>+ Crear Campaña</button>
+        <BigButtonComponent
+          text="+ Crear Campaña"
+          handleClick={handleCreateCampaign}
+        />
+
       </div>
     </div>
   );

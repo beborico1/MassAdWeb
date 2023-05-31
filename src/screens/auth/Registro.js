@@ -9,10 +9,9 @@ import ContinuarButton from '../../components/ContinuarButton';
 import RegisterForm from '../../components/auth/RegisterForm';
 import EmpresaForm from '../../components/auth/EmpresaForm';
 import DemograficosForm from '../../components/auth/DemograficosForm';
-import SelectSexo from '../../components/auth/SelectSexo';
-import SelectPais from '../../components/auth/SelectPais';
-import SelectEstado from '../../components/auth/SelectEstado';
 import RegresarButton from '../../components/RegresarButton'
+import SelectComponent from '../../components/SelectComponent'
+import Title from '../../components/TitleComponent'
 
 export default function Registro() {
   // estados informativos
@@ -125,9 +124,13 @@ export default function Registro() {
       // Signed in 
       const user = userCredential.user;
       console.log(user)
+
+      const uid = user.uid;
   
       // Creamos un documento de usuario en FireStore
-      const docRef = doc(db, 'users', user.uid);
+      const docRef = doc(db, 'users', uid);
+
+      const locales = navigator.language || navigator.userLanguage;
 
       await setDoc(docRef, {
         nombreCompleto,
@@ -144,8 +147,8 @@ export default function Registro() {
         direccionEmpresa,
         telefonoEmpresa,
         email,
-        uid: user.uid,
-        // locales,
+        uid,
+        locales,
       });
   
       console.log('Usuario registrado correctamente');
@@ -181,14 +184,73 @@ export default function Registro() {
     <div className="flex flex-col items-center justify-center h-screen text-center bg-gray-200">
       <img src={require('../../assets/logo.png')} alt="Logo" className="h-32" />
 
-      <h1 className="text-gray-900 text-4xl mb-8 select-none text-center">
-        {nombresEtapas[etapa-1]}
-      </h1>
+      <Title title={nombresEtapas[etapa-1]} />
 
       { etapa === 1 && <IdentificacionForm nombreCompleto={nombreCompleto} setNombreCompleto={setNombreCompleto} edad={edad} setEdad={setEdad} telefono={telefono} setTelefono={setTelefono} />}
-      { etapa === 2 && <SelectSexo sexo={sexo} setSexo={setSexo} /> }
-      { etapa === 3 && <SelectPais pais={pais} setPais={setPais} />}
-      { etapa === 4 && <SelectEstado estado={estado} setEstado={setEstado} />}
+      { etapa === 2 && 
+      <SelectComponent
+        selectedValue={sexo} 
+        setSelectedValue={setSexo} 
+        options={{
+            initialMessage: "Seleccione el Sexo",
+            values: ["Masculino", "Femenino", "Otro", "Prefiero no decirlo"]
+        }} 
+      />
+      }
+      { etapa === 3 && 
+      <SelectComponent 
+        selectedValue={pais} 
+        setSelectedValue={setPais} 
+        options={{
+            initialMessage: "Seleccione el País",
+            values: ["México", "Otro"]
+        }} 
+      />
+      }
+      { etapa === 4 && 
+      <SelectComponent 
+        selectedValue={estado} 
+        setSelectedValue={setEstado} 
+        options={{
+          initialMessage: "Seleccione el Estado",
+          values: [
+              "Aguascalientes",
+              "Baja California",
+              "Baja California Sur",
+              "Campeche",
+              "Chiapas",
+              "Chihuahua",
+              "Coahuila",
+              "Colima",
+              "Ciudad de México",
+              "Durango",
+              "Estado de México",
+              "Guanajuato",
+              "Guerrero",
+              "Hidalgo",
+              "Jalisco",
+              "Michoacán",
+              "Morelos",
+              "Nayarit",
+              "Nuevo León",
+              "Oaxaca",
+              "Puebla",
+              "Querétaro",
+              "Quintana Roo",
+              "San Luis Potosí",
+              "Sinaloa",
+              "Sonora",
+              "Tabasco",
+              "Tamaulipas",
+              "Tlaxcala",
+              "Veracruz",
+              "Yucatán",
+              "Zacatecas"
+          ]
+        }} 
+      />
+
+      }
       { etapa === 5 && <DemograficosForm pais={pais} setPais={setPais} estado={estado} setEstado={setEstado} ciudad={ciudad} setCiudad={setCiudad} codigoPostal={codigoPostal} setCodigoPostal={setCodigoPostal} />}
       { etapa === 6 && <EmpresaForm nombreEmpresa={nombreEmpresa} setNombreEmpresa={setNombreEmpresa} puesto={puesto} setPuesto={setPuesto} rfc={rfc} setRfc={setRfc} direccionEmpresa={direccionEmpresa} setDireccionEmpresa={setDireccionEmpresa} telefonoEmpresa={telefonoEmpresa} setTelefonoEmpresa={setTelefonoEmpresa} />}
       { etapa === 7 && <RegisterForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword} />}

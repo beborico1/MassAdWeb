@@ -1,40 +1,55 @@
 import React from 'react'
+import TextInputComponent from '../TextInputComponent';
 
 const EmpresaForm = ({ nombreEmpresa, setNombreEmpresa, puesto, setPuesto, rfc, setRfc, direccionEmpresa, setDireccionEmpresa, telefonoEmpresa, setTelefonoEmpresa }) => {
   return (
-    <div className="flex flex-col mb-5 w-full max-w-2xl">
-      <input
-        placeholder='Ingresa el Nombre de la Empresa'
+    <div className="flex flex-col mb-5 w-full max-w-2xl items-center">
+
+      <TextInputComponent
+        placeholder="Ingresa el Nombre de la Empresa"
         value={nombreEmpresa}
-        onChange={e => setNombreEmpresa(e.target.value)}
-        autoCapitalize="words"
-        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm'
+        setValue={setNombreEmpresa}
+        type="text"
+        required={true}
+        autoComplete="organization"
       />
-      <input
+
+      <TextInputComponent
         placeholder='Ingresa el Puesto'
         value={puesto}
-        onChange={e => setPuesto(e.target.value)}
-        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm'
+        setValue={setPuesto}
+        type="text"
+        required={true}
+        autoComplete="organization"
       />
-      <input
-        placeholder='Ingresa el RFC (opcional)'
+
+      <TextInputComponent
+        placeholder="Ingresa el RFC (opcional)"
         value={rfc}
-        onChange={e => setRfc(e.target.value)}
-        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm'
+        setValue={setRfc}
+        type="text"
+        required={false}
+        autoComplete="organization"
       />
-      <input
-        placeholder='Ingresa la Dirección (opcional)'
+
+      <TextInputComponent
+        placeholder="Ingresa la Dirección (opcional)"
         value={direccionEmpresa}
-        onChange={e => setDireccionEmpresa(e.target.value)}
-        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm'
+        setValue={setDireccionEmpresa}
+        type="text"
+        required={false}
+        autoComplete="street-address"
       />
-      <input
-        placeholder='Ingresa el Teléfono (opcional)'
+
+      <TextInputComponent
+        placeholder="Ingresa el Teléfono (opcional)"
         value={telefonoEmpresa}
-        onChange={e => setTelefonoEmpresa(e.target.value)}
-        type = 'number'
-        className='box-border p-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm'
+        setValue={setTelefonoEmpresa}
+        type="number"
+        required={false}
+        autoComplete="tel"
       />
+
     </div>
   )
 }

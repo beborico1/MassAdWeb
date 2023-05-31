@@ -1,34 +1,38 @@
 import React from 'react';
+import TextInputComponent from '../TextInputComponent';
 
 const RegisterForm = ({ email, setEmail, password, setPassword, confirmPassword, setConfirmPassword }) => {
 
     return (
-      <div className="flex flex-col mb-5 w-full max-w-2xl">
-        <input
-          className="box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm"
-          placeholder='Correo electrónico'
+      <div className="flex flex-col mb-5 w-full max-w-2xl items-center">
+
+        <TextInputComponent
+          placeholder="Correo electrónico"
           value={email}
-          onChange={e => setEmail(e.target.value)}
-          autoCapitalize="none"
-          autoComplete="email"
+          setValue={setEmail}
           type="email"
+          required={true}
+          autoComplete="email"
         />
-     
-        <input
-          className="box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm"
-          placeholder='Contraseña'
-          type="password"
+
+        <TextInputComponent
+          placeholder="Contraseña"
           value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-     
-        <input
-          className="box-border p-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm"
-          placeholder='Confirmar contraseña'
+          setValue={setPassword}
           type="password"
-          value={confirmPassword}
-          onChange={e => setConfirmPassword(e.target.value)}
+          required={true}
+          autoComplete="new-password"
         />
+
+        <TextInputComponent
+          placeholder="Confirmar contraseña"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          type="password"
+          required={true}
+          autoComplete="new-password"
+        />
+
       </div>
     );      
 };

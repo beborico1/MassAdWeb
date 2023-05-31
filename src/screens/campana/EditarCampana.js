@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { doc, deleteDoc, updateDoc } from "firebase/firestore"; 
 import { db } from '../../helpers/firebase';
-import NombreCampana from '../../components/crearcampana/NombreCampana';
-import MetasCampana from '../../components/crearcampana/MetasCampana';
-import SelectMedia from '../../components/crearcampana/SelectMedia';
-import SelectService from '../../components/crearcampana/SelectService';
 import CheckStations from '../../components/crearcampana/CheckStations';
 import Presupuesto from '../../components/crearcampana/Presupuesto';
 import SpotProductionOptions from '../../components/crearcampana/SpotProductionOptions';
-import EspecificacionesPauta from '../../components/crearcampana/EspecificacionesPauta';
 import AdjuntarArchivos from '../../components/crearcampana/AdjuntarArchivos';
 import RegresarButton from '../../components/RegresarButton';
 import ContinuarButton from '../../components/ContinuarButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { IoTrashOutline } from 'react-icons/io5';
+import SelectComponent from '../../components/SelectComponent';
+import Title from '../../components/TitleComponent';
+import TextAreaComponent from '../../components/TextAreaComponent';
+import TextInputComponent from '../../components/TextInputComponent';
+import BigButtonComponent from '../../components/BigButtonComponent';
 
 export default function EditarCampana() {
   const location = useLocation();
@@ -165,27 +165,67 @@ export default function EditarCampana() {
     <div className='flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden'>
       <div className="flex flex-col items-center w-full max-w-3xl">
 
-        <button onClick={() => window.history.back()} className='cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-4 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 left-2 justify-center items-center flex flex-row'>
+        <button onClick={() => window.history.back()} className='cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-4 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 left-2 justify-center items-center flex flex-row'>
           <FaArrowLeft size={20} style={{marginRight: '10px'}}/> Detalle
         </button>  
 
-        <h2 className="text-gray-900 text-4xl mb-4 select-none">{nombresEtapas[etapa-1]}</h2>   
+        <Title title={nombresEtapas[etapa-1]} />
 
-        { etapa === 1 && <NombreCampana nombreCampana={nombreCampana} setNombreCampana={setNombreCampana}/> }
-        { etapa === 2 && <MetasCampana metasCampana={metasCampana} setMetasCampana={setMetasCampana}/> }
-        { etapa === 3 && <SelectMedia selectedMedia={selectedMedia} setSelectedMedia={setSelectedMedia} /> }
-        { etapa === 4 && <SelectService selectedService={selectedService} setSelectedService={setSelectedService}/> }
+        { etapa === 1 && 
+          <TextInputComponent
+            value={nombreCampana}
+            setValue={setNombreCampana}
+            placeholder='Ingresa el Nombre de la Campaña'
+            type="text"
+            required
+          />
+
+        }
+        { etapa === 2 && 
+          <TextAreaComponent 
+            value={metasCampana}
+            setValue={setMetasCampana}
+            placeholder='Ingresa las Metas de la Campaña'
+          />
+        }
+        { etapa === 3 && 
+          <SelectComponent
+            selectedValue={selectedMedia} 
+            setSelectedValue={setSelectedMedia} 
+            options={{
+                initialMessage: "Seleccione el Medio de Comunicación",
+                values: ["Radio"]
+            }} 
+          />
+        }
+        { etapa === 4 && 
+          <SelectComponent 
+            selectedValue={selectedService} 
+            setSelectedValue={setSelectedService} 
+            options={{
+                initialMessage: "Seleccione el Servicio",
+                values: ["Radio SA"]
+            }} 
+          />
+        }
         { etapa === 5 && <CheckStations stations={stations} handleCheck={handleCheck}/> }
         { etapa === 6 && <Presupuesto budget={budget} setBudget={setBudget}/>}
         { etapa === 7 && <SpotProductionOptions spotProduction={spotProduction} setSpotProduction={setSpotProduction} spotProductionDetails={spotProductionDetails} setSpotProductionDetails={setSpotProductionDetails}/>}
-        { etapa === 8 && <EspecificacionesPauta pautaSpecs={pautaSpecs} setPautaSpecs={setPautaSpecs}/>}
-        { etapa === 9 && <AdjuntarArchivos adjuntos={adjuntos} setAdjuntos={setAdjuntos}/>}
+        { etapa === 8 && 
+          <TextAreaComponent 
+            value={pautaSpecs}
+            setValue={setPautaSpecs}
+            placeholder={'Escribe aquí las especificaciones de la pauta'}
+          />
+        }
+        { etapa === 9 && <AdjuntarArchivos adjuntos={adjuntos} setAdjuntos={setAdjuntos}/>}     
 
 
         <ContinuarButton title={'Editar Campaña'} etapa={etapa} numeroDeEtapas={numeroDeEtapas} handleContinuar={handleContinuar} loading={loading} />    
+
         <RegresarButton etapa={etapa} handleContinuar={handleContinuar} />    
 
-        <button onClick={handleBorrarCampana} className='box-border w-300 p-2 bg-gray-500 text-white border-none rounded-md cursor-pointer text-xl font-semibold shadow-md hover:shadow-xl hover:bg-gray-300  w-full max-w-2xl  mb-3 mt-3 flex flex-row justify-center h-12 items-center'>
+        <button onClick={handleBorrarCampana} className='box-border w-300 p-2 bg-gray-500 text-white border-none rounded-md cursor-pointer text-xl font-semibold shadow-md hover:shadow-xl hover:bg-gray-300 mb-3 mt-3 flex flex-row justify-center h-12 items-center max-w-xl w-11/12'>
             <IoTrashOutline size={24} />
             <span className="pl-3">
               Borrar Campaña

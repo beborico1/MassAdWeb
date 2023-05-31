@@ -73,7 +73,7 @@ const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
     }  
 
     return (
-        <div {...getRootProps()} className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-300 rounded bg-gray-100 cursor-pointer transition-colors ease-in-out duration-300 hover:border-adstream-500 w-full max-w-2xl">
+        <div {...getRootProps()} className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-300 rounded bg-gray-100 cursor-pointer transition-colors ease-in-out duration-300 hover:border-adstream-500 w-11/12 max-w-xl">
             <input {...getInputProps()} />
             {
                 isDragActive ?
@@ -108,74 +108,3 @@ const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
 };
 
 export default AdjuntarArchivos;
-
-// import React, { useState } from 'react';
-// import colors from '../../helpers/colors';
-// import { globalStyles } from '../../helpers/styles';
-// import { ThreeDots } from 'react-loader-spinner';
-
-// const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
-//     // ...
-    
-//     return (
-//         <div>
-//             {/* ... */}
-
-//             {uploading && (
-//                 <div style={{ paddingVertical: 10 }}>
-//                     <p style={[globalStyles.coloredText, { paddingVertical: 20, textAlign: 'center' }]}>
-//                         {transferred.toFixed(2)}% completado!
-//                     </p>
-//                     {!adjuntos && <ThreeDots color={colors.adstream} height={80} width={80} />}
-//                 </div>
-//             )}
-
-//             {/* ... */}
-//         </div>
-//     );
-// };
-
-// export default AdjuntarArchivos;
-
-
-// // import React, { useState } from 'react';
-// // import colors from '../../helpers/colors';
-// // import { globalStyles } from '../../helpers/styles';
-
-// // const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
-// //     const [uploading, setUploading] = useState(false);
-// //     const [transferred, setTransferred] = useState(0);
-
-// //     const selectDocument = async () => {
-// //         // Implementar la lógica de selección de documentos para la web
-// //     };
-
-// //     const uploadFile = async (result) => {
-// //         // Implementar la lógica de carga de archivos para la web
-// //     };
-
-// //     return (
-// //         <div>
-// //             <button onClick={selectDocument} disabled={uploading} style={{ backgroundColor: colors.adstream }}>
-// //                 Adjuntar archivos
-// //             </button>
-
-// //             {uploading && (
-// //                 <div style={{ paddingVertical: 10 }}>
-// //                     <p style={[globalStyles.coloredText, { paddingVertical: 20, textAlign: 'center' }]}>
-// //                         {transferred.toFixed(2)}% completado!
-// //                     </p>
-// //                     {!adjuntos && <ActivityIndicator size="large" color={colors.adstream} />}
-// //                 </div>
-// //             )}
-
-// //             {adjuntos.length > 0 && (
-// //                 <p style={[globalStyles.titleText, { textAlign: 'center', color: 'gray', paddingVertical: 10 }]}>
-// //                     Archivo {adjuntos.length} subido correctamente!
-// //                 </p>
-// //             )}
-// //         </div>
-// //     );
-// // };
-
-// // export default AdjuntarArchivos;

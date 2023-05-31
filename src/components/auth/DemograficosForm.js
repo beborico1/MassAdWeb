@@ -1,22 +1,25 @@
 import React from 'react';
+import TextInputComponent from '../TextInputComponent';
 
 const DemograficosForm = ({ciudad, setCiudad, codigoPostal, setCodigoPostal}) => {
   return (
-    <div className="flex flex-col mb-5 w-full max-w-2xl">
-      <input
+    <div className="flex flex-col mb-5 w-full max-w-2xl items-center">
+      <TextInputComponent
         placeholder="Ingresa tu ciudad"
         value={ciudad}
-        onChange={e => setCiudad(e.target.value)}
-        autoCapitalize="words"
-        className='box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl shadow-sm'
+        setValue={setCiudad}
+        type="text"
+        required={true}
+        autoComplete="address-level2"
       />
 
-      <input
+      <TextInputComponent
         placeholder="Ingresa tu código postal"
         value={codigoPostal}
-        onChange={e => setCodigoPostal(e.target.value)}
+        setValue={setCodigoPostal}
         type="number"
-        className='box-border p-2 border border-gray-300 rounded-md w-full max-w-2xl shadow-sm'
+        required={true}
+        autoComplete="postal-code"
       />
     </div>
   )

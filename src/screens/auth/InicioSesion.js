@@ -3,6 +3,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../helpers/firebase'
 import { useNavigate } from 'react-router-dom'
 import UserCompleteContext from '../../helpers/UserCompleteContext'
+import Title from '../../components/TitleComponent'
+import TextInputComponent from '../../components/TextInputComponent'
+import BigButtonComponent from '../../components/BigButtonComponent'
+import { FaSignInAlt } from 'react-icons/fa'
 
 const InicioSesion = () => {
   const [email, setEmail] = useState('')
@@ -58,34 +62,35 @@ const InicioSesion = () => {
     <div className="flex flex-col items-center justify-center h-screen text-center bg-gray-200">
       <img src={require('../../assets/logo.png')} alt="Logo" className="h-32" />
 
-      <h1 className="text-gray-900 text-4xl mb-8  text-center"> Inicio de Sesión </h1>
-      
-      <input
-        className="w-80 p-2 mb-2 border border-gray-300 rounded-md"
+      <Title title="Inicio de Sesión" />
+
+      <TextInputComponent
         placeholder='Correo electrónico'
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        setValue={setEmail}
+        type="email"
         autoComplete="email"
       />
 
-      <input
-        className="w-80 p-2 mb-2 border border-gray-300 rounded-md"
+      <TextInputComponent
         placeholder='Contraseña'
-        type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        setValue={setPassword}
+        type="password"
+        autoComplete="current-password"
       />
 
       {error && (
           <p className="text-red-500 m-2">{error}</p>
       )}
 
-      <button className="w-80 p-2 bg-adstream-500 hover:bg-adstream-300 text-white border-none rounded-md cursor-pointer text-xl font-semibold shadow-md hover:shadow-lg transition duration-400" onClick={handleInicioSesion} >
-        {loading ? ( 
-          <div className="spinner"></div>
-        ) : 'Iniciar Sesión'
-        }
-      </button>
+      <BigButtonComponent
+        text="Iniciar Sesión"
+        loadingText="Iniciando..."
+        handleClick={handleInicioSesion}
+        loading={loading}
+        Icon={FaSignInAlt}
+      />
       
       <div className="divider">
         <p className="m-3 select-none">o</p>

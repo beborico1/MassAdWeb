@@ -1,29 +1,37 @@
 import React from 'react';
+import TextInputComponent from '../TextInputComponent';
 
 const IdentificacionForm = ({ nombreCompleto, setNombreCompleto, edad, setEdad, telefono, setTelefono }) => {
     return (
-      <div className="flex flex-col mb-5 w-full max-w-2xl">
-        <input
-          className="box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl shadow-sm"
+      <div className="flex flex-col mb-5 w-full max-w-2xl items-center">
+
+        <TextInputComponent
           placeholder="Ingresa tu nombre completo"
           value={nombreCompleto}
-          onChange={e => setNombreCompleto(e.target.value)}
-          autoCapitalize="words"
+          setValue={setNombreCompleto}
+          type="text"
+          required={true}
+          autoComplete="name"
         />
-        <input
-          className="box-border p-2 mb-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm"
+
+        <TextInputComponent
           placeholder="Ingresa tu edad"
           value={edad}
-          onChange={e => setEdad(e.target.value)}
+          setValue={setEdad}
           type="number"
+          required={true}
+          autoComplete="age"
         />
-        <input
-          className="box-border p-2 border border-gray-300 rounded-md  w-full max-w-2xl  shadow-sm"
+
+        <TextInputComponent
           placeholder="Ingresa tu teléfono"
           value={telefono}
-          onChange={e => setTelefono(e.target.value)}
+          setValue={setTelefono}
           type="number"
+          required={true}
+          autoComplete="tel"
         />
+
       </div>
     );      
 };
