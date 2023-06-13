@@ -11,6 +11,7 @@ import DetalleCampana from './screens/campana/DetalleCampana';
 import EditarCampana from './screens/campana/EditarCampana';
 import ProduccionSpot from './screens/ProduccionSpot';
 import PerfilUsuario from './screens/auth/PerfilUsuario';
+import CrearCampanaOriginal from './screens/campana/OriginalCrearCampana';
 
 export default function App() {
   const [user, setUser] = React.useState(null);
@@ -38,7 +39,8 @@ export default function App() {
           <Route path="/inicio-sesion" element={!user ? <InicioSesion /> : <Navigate to="/inicio" />} />
           <Route path="/registro" element={!userComplete ? <Registro /> : <Navigate to="/inicio" />} />
           <Route path="/inicio" element={user ? <Inicio /> : <Navigate to="/inicio-sesion" />} />
-          <Route path="/crear-campana" element={user && userComplete ? <CrearCampana /> : <Navigate to="/inicio-sesion" />} />
+          <Route path="/crear-campana" element={user && userComplete ? <CrearCampanaOriginal /> : <Navigate to="/inicio-sesion" />} />
+          <Route path="/crear-campana-ai" element={user && userComplete ? <CrearCampana /> : <Navigate to="/inicio-sesion" />} />
           <Route path="/detalle-campana" element={user && userComplete ? <DetalleCampana /> : <Navigate to="/inicio-sesion" />} />
           <Route path="/editar-campana" element={user && userComplete ? <EditarCampana /> : <Navigate to="/inicio-sesion" />} />
           <Route path="/produccion-spot" element={user && userComplete ? <ProduccionSpot /> : <Navigate to="/inicio-sesion" />} />

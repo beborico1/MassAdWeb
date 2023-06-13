@@ -15,7 +15,6 @@ export default function DetalleCampana() {
 
   const navigate = useNavigate();
 
-  const [campana, setCampana] = useState(null);
   const [adjuntos, setAdjuntos] = useState([]);
   const [borrando, setBorrando] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -23,7 +22,7 @@ export default function DetalleCampana() {
 
   useEffect(() => {
     setAdjuntos(campaign?.adjuntos || []);
-  }, [campana]);
+  }, [campaign]);
 
   const handleDeleteAdjunto = async (adjunto) => {
     if (borrando) {
@@ -72,7 +71,7 @@ export default function DetalleCampana() {
     <div className="overflow-x-hidden">
       <div className="header flex justify-between bg-gray-200">
         <div className="left flex">
-          <button onClick={() => window.history.back()} className='px-2 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+          <button onClick={() => navigate('/inicio')} className='px-2 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
             <FaArrowLeft size={20} className='mr-0 md:mr-2'/>
             <span className="hidden md:inline">Inicio</span>
           </button>

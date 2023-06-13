@@ -6,6 +6,7 @@ import { FaUser, FaInfoCircle } from 'react-icons/fa';
 import Title from '../components/TitleComponent';
 import ButtonComponent from '../components/ButtonComponent';
 import BigButtonComponent from '../components/BigButtonComponent';
+// import ChatWidget from '../components/ChatWidget';
 
 const Inicio = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -45,6 +46,11 @@ const Inicio = () => {
     navigate('/crear-campana');
   };
 
+  const handleCreateCampaignAI = () => {
+    console.log('Crear campaña con IA');
+    navigate('/crear-campana-ai');
+  };
+
   return (
     <div className="flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden">
       <div className="flex flex-col items-center w-full max-w-3xl">
@@ -76,9 +82,22 @@ const Inicio = () => {
           handleClick={handleCreateCampaign}
         />
 
+        <BigButtonComponent
+          text="+ Crear con I.A. (BETA)"
+          handleClick={handleCreateCampaignAI}
+          bgColor="bg-blue-500 hover:bg-blue-300 mt-4"
+        />
+
+        {/* <ChatWidget /> */}
       </div>
     </div>
   );
 };
 
 export default Inicio;
+
+// Previsualizacion:
+// Fecha de inicio
+// Fecha de termino
+// Tal vez duracion y presupuesto total de la campaña
+// Estado de la campaña: activa, inactiva, terminada, etc.

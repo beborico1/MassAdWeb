@@ -1,198 +1,76 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../../helpers/firebase';
-import { addDoc, collection } from 'firebase/firestore';
-import CheckStations from '../../components/crearcampana/CheckStations';
-import Presupuesto from '../../components/crearcampana/Presupuesto';
-import SpotProductionOptions from '../../components/crearcampana/SpotProductionOptions';
-import AdjuntarArchivos from '../../components/crearcampana/AdjuntarArchivos';
-import RegresarButton from '../../components/RegresarButton';
-import ContinuarButton from '../../components/ContinuarButton';
-import { FaArrowLeft } from 'react-icons/fa';
-import SelectComponent from '../../components/SelectComponent';
-import Title from '../../components/TitleComponent';
-import TextInputComponent from '../../components/TextInputComponent';
-import TextAreaComponent from '../../components/TextAreaComponent';
+import React, { useEffect, useState } from 'react'; // Importa el hook useState
+import { FaArrowLeft, FaArrowRight, FaQuestion } from 'react-icons/fa'; // Importa los iconos de flecha y pregunta
+import Title from '../../components/TitleComponent'; // Importa el componente de título
+import TextAreaComponent from '../../components/TextAreaComponent'; // Importa el componente de área de texto
+import axios from 'axios'; // Importa axios para hacer llamadas a la API de OpenAI
+import ChatbotAclaraciones from '../../components/ChatbotAclaraciones';
+import Preguntas from '../../components/Preguntas';
 
-export default function CrearCampana() {
+export default function CrearCampana() { // Exporta la función CrearCampana
+  const [loading, setLoading] = useState(false); // Define el estado de loading
+  const [sobreLaEmpresa, setSobreLaEmpresa] = useState(''); // Define el estado de sobreLaEmpresa
+  const [etapa, setEtapa] = useState(1); // Define el estado de etapa
 
-   const navigate = useNavigate();
+  const [preguntas, setPreguntas] = useState([]); // Define el estado de preguntas
+  const [respuestas, setRespuestas] = useState([]); // Define el estado de respuestas
+  const [desarrollo, setDesarrollo] = useState(''); // Define el estado de desarrollo de la idea para la campaña publicitaria despues de que el usuario haga las aclaraciones
 
-   const [loading, setLoading] = useState(false);
-   const [nombreCampana, setNombreCampana] = useState('');
-   const [metasCampana, setMetasCampana] = useState('');
-   const [selectedMedia, setSelectedMedia] = useState('');
-   const [selectedService, setSelectedService] = useState('');
-   const [budget, setBudget] = useState(0);
-   const [spotProduction, setSpotProduction] = useState('');
-   const [spotProductionDetails, setSpotProductionDetails] = useState('');
-   const [pautaSpecs, setPautaSpecs] = useState('');
-   const [adjuntos, setAdjuntos] = useState([]);
+  const [dots, setDots] = useState(0);
 
-   const [etapa, setEtapa] = useState(1);
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        setDots((dots) => (dots + 1) % 4);
+      }, 500);
 
-   const nombresEtapas = [
-     'Nombre de la Campaña',
-     'Metas de la Campaña', // Agregamos el nombre de la etapa
-     'Medio de Comunicación',
-     'Servicio',
-     'Estaciones',
-     'Presupuesto',
-     'Producción de Spots',
-     'Especificaciones de la Pauta',
-     'Adjuntos',
-   ];
-
-   const numeroDeEtapas = 9;
-  
-   const [stations, setStations] = useState({
-     maxima: false,
-     activa: false,
-     laraza: false,
-     love: false
-   });
-
-   const handleCheck = (station) => {
-     setStations({...stations, [station]: !stations[station]});
-   }
-
-   const enviarPropuesta = async () => {
-    if (!nombreCampana || !metasCampana || !selectedMedia || !selectedService ) {  // Agregamos validación para las metas de la campaña
-       return alert('Todos los campos son obligatorios');
+      return () => clearInterval(interval);
     }
-    try {
-     setLoading(true);
-     await addDoc(collection(db, 'campaigns'), {
-       nombre: nombreCampana,
-       metas: metasCampana,
-       creadaPor: auth.currentUser.uid,
-       medio: selectedMedia,
-       servicio: selectedService,
-       estaciones: stations,
-       presupuesto: budget,
-       produccion: spotProduction,
-       produccionDetalles: spotProductionDetails,
-       pauta: pautaSpecs,
-       adjuntos,
-       status: 'Enviada'
-    });
-    navigate('/inicio');
-    } catch (error) {
-       setLoading(false);
-       alert('Error al enviar la propuesta');
-       console.error('Error al enviar la propuesta: ', error);
-    }
-   }
+  }, [loading]);
 
-  const handleContinuar = (cambio) => {
-    if (etapa === 1 && cambio === -1) {
-      return navigate('/inicio');
-    }
-    
-    if (cambio === 1) {
-      if (etapa === numeroDeEtapas) {
-        return enviarPropuesta();
-      } else if (etapa === 1 && !nombreCampana) {
-        alert('El nombre de la campaña es obligatorio');
-        return;
-      } else if (etapa === 2 && !metasCampana) { // Agregamos validación para las metas de la campaña
-        alert('Las metas de la campaña son obligatorias');
-        return;
-      } else if (etapa === 3 && !selectedMedia) {
-        alert('El medio de comunicación es obligatorio');
-        return;
-      } else if (etapa === 4 && !selectedService) {
-        alert('El servicio es obligatorio');
-        return;
-      } else if (etapa === 5 && (!stations.maxima && !stations.activa && !stations.laraza && !stations.love)) {
-        alert('Debes seleccionar al menos una estación');
-        return;
-      } else if (etapa === 6 && !budget) {
-        alert('El presupuesto es obligatorio');
-        return;
-      } else if (etapa === 7) {
-        if (!spotProduction) {
-          alert('Debes seleccionar una opción');
-          return;
-        }
-        if (spotProduction === "Sí" && !spotProductionDetails) {
-          alert('Debes proporcionar detalles sobre tus necesidades de producción');
-          return;
-        }
-      } else if (etapa === 8 && !pautaSpecs) {
-        alert('Debes proporcionar detalles sobre la pauta');
-        return;
-      }
-      setEtapa(etapa + 1);
-    } else {
-      setEtapa(etapa - 1);
-    }
-  } 
+  const generarPreguntas = async () => { // Define la función generarPreguntas
+    if (!sobreLaEmpresa) { // Si sobreLaEmpresa no tiene valor
+      return alert('La información sobre la empresa es obligatoria'); // Muestra un mensaje de alerta
+    } // Cierra el if
+    setLoading(true); // Cambia el estado de loading a true
+    try { // Intenta hacer lo siguiente
+      const result = await axios.post('https://api.openai.com/v1/chat/completions', { // Llama a la API de OpenAI
+          model: "gpt-3.5-turbo", // Define el modelo
+          messages: [ // Define los mensajes
+              {"role": "user", "content": `En base a esta idea de empresa: \"${sobreLaEmpresa}\", genera 5 preguntas que se podrian hacer a la empresa para entender mejor la idea, el modelo de negocios, y tener mas contexto que nos haga falta y que nos podria ayudar para generarles una campaña publicitaria en la radio.`}, // Define el mensaje del usuario
+          ] // Cierra los mensajes
+      }, { // Cierra el primer parámetro
+          headers: { // Define los headers
+              'Content-Type': 'application/json', // Define el tipo de contenido
+              'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`, // Define la autorización
+          } // Cierra los headers
+      }); // Cierra la llamada a la API de OpenAI
+      const content = result.data.choices[0].message.content; // Define el contenido
+      setLoading(false); // Cambia el estado de loading a false
+      
+      const newPreguntas = content.match(/(¿[^?]*\?)/g); // Extract the questions from the content
+      console.log(newPreguntas);  // This will be an array of questions
+
+      setPreguntas(newPreguntas); // set preguntas to the array of questions
+      setRespuestas(newPreguntas.map(() => '')); // set respuestas to an array of empty strings with the same length as preguntas
+      setEtapa(etapa + 1); // set etapa to etapa + 1
+    } catch (error) { // Si hay un error
+      setLoading(false); // Cambia el estado de loading a false
+      console.log('Error al llamar a la API de OpenAI'); // Muestra un mensaje de error
+      console.log(error); // Muestra el error
+    } // Cierra el catch
+  } // Cierra la función generarPreguntas
 
   return (
     <>
       <div className="flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden">   
         <div className="flex flex-col items-center w-full max-w-3xl">
-
+          {/* BOTON PARA REGRESAR: */}
           <button onClick={() => window.history.back()} className='cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 left-2 justify-center items-center flex flex-row'>
             <FaArrowLeft size={20} style={{marginRight: '10px'}}/> Inicio
           </button>  
 
-          <Title title = {nombresEtapas[etapa-1]} />
+          <Preguntas />
 
-          { etapa === 1 && 
-            <TextInputComponent
-              value={nombreCampana}
-              setValue={setNombreCampana}
-              placeholder='Ingresa el Nombre de la Campaña'
-              type="text"
-              required
-            />
-
-          }
-          { etapa === 2 && 
-            <TextAreaComponent
-              value={metasCampana}
-              setValue={setMetasCampana}
-              placeholder='Ingresa las Metas de la Campaña'
-            />
-          }
-          { etapa === 3 && 
-            <SelectComponent
-              selectedValue={selectedMedia} 
-              setSelectedValue={setSelectedMedia} 
-              options={{
-                  initialMessage: "Seleccione el Medio de Comunicación",
-                  values: ["Radio"]
-              }} 
-            />
-          }
-          { etapa === 4 && 
-            <SelectComponent 
-              selectedValue={selectedService} 
-              setSelectedValue={setSelectedService} 
-              options={{
-                  initialMessage: "Seleccione el Servicio",
-                  values: ["Radio SA"]
-              }} 
-            />
-          }
-          { etapa === 5 && <CheckStations stations={stations} handleCheck={handleCheck}/> }
-          { etapa === 6 && <Presupuesto budget={budget} setBudget={setBudget}/>}
-          { etapa === 7 && <SpotProductionOptions spotProduction={spotProduction} setSpotProduction={setSpotProduction} spotProductionDetails={spotProductionDetails} setSpotProductionDetails={setSpotProductionDetails}/>}
-          { etapa === 8 && 
-            <TextAreaComponent 
-              value={pautaSpecs}
-              setValue={setPautaSpecs}
-              placeholder={'Escribe aquí las especificaciones de la pauta'}
-            />
-          }
-          { etapa === 9 && <AdjuntarArchivos adjuntos={adjuntos} setAdjuntos={setAdjuntos}/>}     
-
-          <p style={{}}></p>      
-
-          <ContinuarButton title={'Enviar Propuesta'} etapa={etapa} numeroDeEtapas={numeroDeEtapas} handleContinuar={handleContinuar} loading={loading} />
-          <RegresarButton etapa={etapa} handleContinuar={handleContinuar} />      
         </div>
       </div>
     </>

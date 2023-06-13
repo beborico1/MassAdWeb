@@ -52,7 +52,7 @@ export default function EditarCampana() {
     'Editar Presupuesto',
     'Editar Producción de Spots',
     'Editar Especificaciones de la Pauta',
-    '',
+    'Agregar Adjuntos',
   ];
 
   const handleCheck = (station) => {
