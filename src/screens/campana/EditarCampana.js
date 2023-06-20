@@ -15,6 +15,7 @@ import Title from '../../components/TitleComponent';
 import TextAreaComponent from '../../components/TextAreaComponent';
 import TextInputComponent from '../../components/TextInputComponent';
 import BigButtonComponent from '../../components/BigButtonComponent';
+import { toast } from 'react-toastify';
 
 export default function EditarCampana() {
   const location = useLocation();
@@ -72,34 +73,34 @@ export default function EditarCampana() {
       if (etapa === numeroDeEtapas) {
         return editarPropuesta();
       } else if (etapa === 1 && !nombreCampana) {
-        alert('El nombre de la campaña es obligatorio');
+        toast.error('El nombre de la campaña es obligatorio');
         return;
       } else if (etapa === 2 && !metasCampana) { // Agregamos validación para las metas de la campaña
-        alert('Las metas de la campaña son obligatorias');
+        toast.error('Las metas de la campaña son obligatorias');
         return;
       } else if (etapa === 3 && !selectedMedia) {
-        alert('El medio de comunicación es obligatorio');
+        toast.error('El medio de comunicación es obligatorio');
         return;
       } else if (etapa === 4 && !selectedService) {
-        alert('El servicio es obligatorio');
+        toast.error('El servicio es obligatorio');
         return;
       } else if (etapa === 5 && (!stations.maxima && !stations.activa && !stations.laraza && !stations.love)) {
-        alert('Debes seleccionar al menos una estación');
+        toast.error('Debes seleccionar al menos una estación');
         return;
       } else if (etapa === 6 && !budget) {
-        alert('El presupuesto es obligatorio');
+        toast.error('El presupuesto es obligatorio');
         return;
       } else if (etapa === 7) {
         if (!spotProduction) {
-          alert('Debes seleccionar una opción');
+          toast.error('Debes seleccionar una opción');
           return;
         }
         if (spotProduction == "Sí" && !spotProductionDetails) {
-          alert('Debes proporcionar detalles sobre tus necesidades de producción');
+          toast.error('Debes proporcionar detalles sobre tus necesidades de producción');
           return;
         }
       } else if (etapa === 8 && !pautaSpecs) {
-        alert('Debes proporcionar detalles sobre la pauta');
+        toast.error('Debes proporcionar detalles sobre la pauta');
         return;
       }
       setEtapa(etapa + 1);
@@ -144,7 +145,7 @@ export default function EditarCampana() {
 
     } catch (error) {
       setLoading(false);
-      alert('Error al editar la propuesta');
+      toast.error('Error al editar la propuesta');
       console.error('Error al editar la propuesta: ', error);
     }
   }
@@ -154,7 +155,7 @@ export default function EditarCampana() {
       await deleteDoc(doc(db, 'campaigns', campaign.id));
       console.log('Campaña eliminada');
       navigate('/inicio');
-      alert('Campaña eliminada');
+      toast.error('Campaña eliminada');
     } catch (error) {
       console.log(error);
     } 

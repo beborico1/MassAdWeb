@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight, FaCommentDots } from 'react-icons/fa';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Hola yo soy Streamy, tu asistente virtual, y estoy aquí para ayudarte a generar ideas para tu campaña publicitaria en la radio.
 
@@ -51,7 +52,7 @@ export default function ChatbotAclaraciones({ sobreLaEmpresa, preguntas, respues
 
     const handleAclarar = async () => {
         if (!aclaracion) { // Si sobreLaEmpresa no tiene valor
-            return alert('La aclaración es obligatoria'); // Muestra un mensaje de alerta
+            return toast.err('La aclaración es obligatoria'); // Muestra un mensaje de alerta
         } // Cierra el if
         setLoading(true); // Cambia el estado de loading a true
         try { // Intenta hacer lo siguiente

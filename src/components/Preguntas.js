@@ -5,6 +5,7 @@ import TextAreaComponent from './TextAreaComponent';
 import { auth, db } from '../helpers/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Preguntas() {
     const [pregunta, setPregunta] = useState('');
@@ -95,13 +96,13 @@ Y te responde: ${respuestasParametro[index]}.`;
 
         // Si la ultima respuesta es undefined o null, no se genera la pregunta
         if (preguntas.length != 0 && !error && (respuestasParametro[respuestasParametro.length - 1] === undefined || respuestasParametro[respuestasParametro.length - 1] === null)) {
-            alert('Por favor, ingresa una respuesta.');
+            toast.error('Por favor, ingresa una respuesta.');
             return;
         }
 
         // respuestas y preguntas debene tener la misma longitud si no no se genera la pregunta
         if (preguntas.length != 0 && !error && (respuestasParametro.length !== preguntas.length)) {
-            alert('Por favor, ingresa una respuesta.');
+            toast.error('Por favor, ingresa una respuesta.');
             return;
         }
         
@@ -122,12 +123,12 @@ Y te responde: ${respuestasParametro[index]}.`;
         console.log('handleRespuesta');
 
         if (pregunta === '') {
-            alert('Por favor, genera una pregunta primero.');
+            toast.error('Por favor, genera una pregunta primero.');
             return;
         }
 
         if (respuesta === '') {
-            alert('Por favor, ingresa una respuesta.');
+            toast.error('Por favor, ingresa una respuesta.');
             return;
         }
 
@@ -174,7 +175,6 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
     };
 
     const handleGenerarCampaña = async (preguntasParametro, respuestasParametro) => {
-        // alert('Ahora vamos a generar la campaña publicitaria por ti, gracias por tu ayuda');
         console.log('handleGenerarCampaña');
         setGenerandoCampaña(true);
         try {
@@ -314,7 +314,7 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
         />}
 
         <button 
-            onClick={() => {if (respuesta !== '') { handleRespuesta() } else alert('Ingresa una respuesta')}}
+            onClick={() => {if (respuesta !== '') { handleRespuesta() } else toast.error('Por favor, ingresa una respuesta')}}
             className={`p-2 text-white border-none rounded-md cursor-pointer text-xl font-semibold w-11/12 max-w-xl mt-3 h-12 box-border ${loading ? 'bg-blue-300 hover:bg-blue-300 shadow-md hover:shadow-md' : 'bg-blue-500 hover:bg-blue-300 shadow-md hover:shadow-xl'}`}
         >
             {loading ? (
