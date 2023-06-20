@@ -14,6 +14,7 @@ export default function Preguntas() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [seAcabo, setSeAcabo] = useState(false);
+    const [generandoCampaña, setGenerandoCampaña] = useState(false);
 
     const navigate = useNavigate();
 
@@ -41,17 +42,18 @@ export default function Preguntas() {
             setLoading(false);
             if (result && result.data && result.data.choices && result.data.choices[0] && result.data.choices[0].message && result.data.choices[0].message.content) {
                 console.log(result.data.choices[0].message.content); // Muestra el contenido
+                setError(null);
                 return result.data.choices[0].message.content; // Define el contenido
             } else {
                 setLoading(false);
                 console.error('Error calling OpenAI API 1');
-                setError('Hubo un error al querer generar la pregunta, por favor intenta de nuevo');
+                setError('Hubo un error al querer generar la pregunta, por favor intenta de nuevo.');
                 throw new Error('Error calling OpenAI API 1'); // Lanza un error
             }
         } catch (error) {
             setLoading(false);
             console.error('Error calling OpenAI API 2', error);
-            setError('Hubo un error al querer generar la pregunta, por favor intenta de nuevo');
+            setError('Hubo un error al querer generar la pregunta, por favor intenta de nuevo.');
             throw error;  // Lanzamos el error para que sea manejado por el código que llama a esta función
         }
     }
@@ -71,7 +73,7 @@ Y te responde: ${respuestasParametro[index]}.`;
         if (preguntasParametro.length === 0) {
             prompt += '¿Cuál fuera la primera pregunta que le harías?, asegurate de comenzar la pregunta con el signo ¿ y terminarla con el signo ?';
         } else {
-            prompt += `\n¿Si tuvieras que dar un número del 0 al 100, hasta ahora qué tanta información hay para generar una campaña publicitaria para esta compañía? y cuál fuera la siguiente pregunta que le harías, para extraer información que sea necesaria para generar su campaña publicitaria?, ten en cuenta que solo tendrás ${numPreguntas-preguntas.length} más, asegurate de no hacer una pregunta que se haya hecho antes, asegurate de comenzar la pregunta con el signo ¿ y terminarla con el signo ?`;
+            prompt += `\n¿Si tuvieras que dar un número del 0 al 100, hasta ahora qué tanta información hay para generar una campaña publicitaria para esta compañía? Y cuál fuera la siguiente pregunta que le harías, para extraer información que sea necesaria para generar su campaña publicitaria?, ten en cuenta que solo tendrás ${numPreguntas-preguntas.length} más, asegurate de no hacer una pregunta que se haya hecho antes, asegurate de comenzar la pregunta con el signo ¿ y terminarla con el signo ?`;
         }
     
         return prompt;
@@ -89,17 +91,17 @@ Y te responde: ${respuestasParametro[index]}.`;
     const generarPregunta = async (respuestasParametro) => {
         console.log('generarPregunta');
 
-        console.log(preguntas,preguntas.length)
+        console.log(preguntas,preguntas.length);
 
         // Si la ultima respuesta es undefined o null, no se genera la pregunta
         if (preguntas.length != 0 && !error && (respuestasParametro[respuestasParametro.length - 1] === undefined || respuestasParametro[respuestasParametro.length - 1] === null)) {
-            alert('Ingresa una respuesta');
+            alert('Por favor, ingresa una respuesta.');
             return;
         }
 
         // respuestas y preguntas debene tener la misma longitud si no no se genera la pregunta
         if (preguntas.length != 0 && !error && (respuestasParametro.length !== preguntas.length)) {
-            alert('Ingresa una respuesta');
+            alert('Por favor, ingresa una respuesta.');
             return;
         }
         
@@ -111,6 +113,7 @@ Y te responde: ${respuestasParametro[index]}.`;
             setLoading(false);
         } catch (error) {
             console.error('Error generating question', error);
+            setError('Hubo un error al querer generar la pregunta, por favor intenta de nuevo.');
             // Aquí puedes manejar el error, por ejemplo mostrando un mensaje al usuario
         }
     }
@@ -119,12 +122,12 @@ Y te responde: ${respuestasParametro[index]}.`;
         console.log('handleRespuesta');
 
         if (pregunta === '') {
-            alert('Genera una pregunta primero');
+            alert('Por favor, genera una pregunta primero.');
             return;
         }
 
         if (respuesta === '') {
-            alert('Ingresa una respuesta');
+            alert('Por favor, ingresa una respuesta.');
             return;
         }
 
@@ -156,11 +159,11 @@ Y te responde: ${respuestasParametro[index]}.`;
         });
 
         prompt += `
-En base a esta conversacion que acabas de tener, generas una campaña publicitaria en la Radio para esta compañía. 
+Con base en esta conversación que acabas de tener, generas una campaña publicitaria en la Radio para esta compañía. 
 La respuesta debe ser con el formato siguiente:
 Nombre de la campaña: [Nombre de la campaña (Texto), ejemplo: Siente VerdeVida: Tu Elección Sostenible]
 Metas de la campaña: [Metas de la campaña (Texto), ejemplo: Atraer Nuevos Clientes: Incrementar el tráfico en nuestra tienda en línea y las ventas en un 25% durante y después de la duración de la campaña. Esto se puede medir a través del análisis de las métricas de la web y los datos de ventas.]
-Estaciones: [Estaciones, separadas por comas sin espacios en minusculas, (las opciones son maxima, activa, laraza y love) debes elegir al menos una. Ejemplo: maxima, activa]
+Estaciones: [Estaciones, separadas por comas sin espacios en minúsculas, (las opciones son maxima, activa, laraza y love) debes elegir al menos una. Ejemplo: maxima, activa]
 Presupuesto: [Presupuesto en pesos mexicanos (Número del 0 al 100000), ejemplo: 60000]
 Detalles de Producción del Spot de Radio: [Detalles de Producción del Spot de Radio (Texto), ejemplo: Spot \"El Amanecer Verde\": Este anuncio comienza con el sonido de un despertador y el bullicio matutino de una casa. Luego, una voz en off explica cómo cada decisión que tomamos, incluso desde el momento en que nos levantamos, puede ayudar al medio ambiente. Se mencionan los productos de limpieza y cuidado personal de VerdeVida, destacando su sostenibilidad y los beneficios para la salud. El anuncio termina con el sonido de pájaros cantando y la frase: \"VerdeVida: Comienza tu día de la forma más verde\".]
 Especificaciones de la pauta: [Especificaciones de la pauta (Texto), ejemplo: Propuesta "Vida Verde en cada Hogar":
@@ -171,8 +174,9 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
     };
 
     const handleGenerarCampaña = async (preguntasParametro, respuestasParametro) => {
-        alert('Ahora vamos a generar la campaña publicitaria por ti, gracias por tu ayuda');
+        // alert('Ahora vamos a generar la campaña publicitaria por ti, gracias por tu ayuda');
         console.log('handleGenerarCampaña');
+        setGenerandoCampaña(true);
         try {
             setLoading(true);
             const response = await handleCallOpenAIAPI(handleGenerarCampañaPrompt(preguntasParametro, respuestasParametro));
@@ -229,7 +233,9 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
                 produccionDetalles: spotProduction,
                 pauta: pautaSpecs,
                 adjuntos: [],
-                status: 'Generada por IA'
+                status: 'Generada por IA',
+                preguntas,
+                respuestas
              });
 
              const campaign = {
@@ -245,15 +251,18 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
                 pauta: pautaSpecs,
                 adjuntos: [],
                 status: 'Generada por IA',
-                id: result.id
+                id: result.id,
+                preguntas,
+                respuestas
                 };
 
+             setGenerandoCampaña(false);
+             setSeAcabo(true);
+             setLoading(false);
              navigate('/detalle-campana', { state: { campaign } });
-
-            setSeAcabo(true);
-            setLoading(false);
         } catch (error) {
             console.error('Error generating question', error); 
+            setGenerandoCampaña(false);
             // Aquí puedes manejar el error, por ejemplo mostrando un mensaje al usuario
         }
     }
@@ -298,27 +307,30 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
             </button>
         </>}
         {loading && <img src={require('../assets/optimized.gif')} alt="Loading" className="w-20 h-24 select-none object-cover" />}
-        {!loading && !seAcabo && <TextAreaComponent
+        {!loading && respuestas.length < numPreguntas && <TextAreaComponent
             value={respuesta}
             setValue={setRespuesta}
             placeholder='Ingresa tu respuesta aquí...'
         />}
-        {!seAcabo &&
-            <button 
-                onClick={() => {if (respuesta !== '') { handleRespuesta() } else alert('Ingresa una respuesta')}}
-                className={`p-2 text-white border-none rounded-md cursor-pointer text-xl font-semibold w-11/12 max-w-xl mb-3 mt-3 h-12 box-border ${loading ? 'bg-blue-300 hover:bg-blue-300 shadow-md hover:shadow-md' : 'bg-blue-500 hover:bg-blue-300 shadow-md hover:shadow-xl'}`}
-            >
-                {loading ? (
-                    <div role="status">
-                        <span>{`Pensando${'.'.repeat(dots)}`}</span>
-                    </div>
-                ) : 'Responder'}
-            </button>
-        }
 
-        {seAcabo && <>
-            <p>¡Gracias por tu ayuda!</p>
-        </>}
+        <button 
+            onClick={() => {if (respuesta !== '') { handleRespuesta() } else alert('Ingresa una respuesta')}}
+            className={`p-2 text-white border-none rounded-md cursor-pointer text-xl font-semibold w-11/12 max-w-xl mt-3 h-12 box-border ${loading ? 'bg-blue-300 hover:bg-blue-300 shadow-md hover:shadow-md' : 'bg-blue-500 hover:bg-blue-300 shadow-md hover:shadow-xl'}`}
+        >
+            {loading ? (
+                <div role="status">
+                    <span>{`${generandoCampaña ? "Generando" : "Pensando"}${'.'.repeat(dots)}`}</span>
+                </div>
+            ) : 'Responder'}
+        </button>
+
+        <div className="w-11/12 max-w-xl mt-3 h-1 rounded-full bg-gray-300 overflow-hidden">
+            <div
+                className="h-full bg-blue-500"
+                style={{ width: `${(respuestas.length / numPreguntas) * 100}%` }}
+            />
+        </div>
+
     </div>
   )
 }

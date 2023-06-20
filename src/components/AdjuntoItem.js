@@ -3,7 +3,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 
 const AdjuntoItem = ({ adjunto, index, handleDeleteAdjunto }) => {
   return (
-    <div className="AdjuntoItem flex items-center justify-between py-2 border-b border-gray-300 px-3">
+    <div className="AdjuntoItem flex items-center justify-between py-2 border-b border-gray-300 px-3 w-full">
       <a
         href={adjunto.url}
         target="_blank"

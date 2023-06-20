@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import AdjuntoItem from '../../components/AdjuntoItem';
 import { deleteObject, ref } from 'firebase/storage';
 import { db, storage } from '../../helpers/firebase';
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Modal from '../../components/Modal';
 import { FaArrowLeft, FaPencilAlt, FaPlayCircle } from 'react-icons/fa';
 import Card from '../../components/Card';
 import Title from '../../components/TitleComponent';
+import NoAdjuntos from '../../components/NoAdjuntos';
 
 export default function DetalleCampana() {
   const location = useLocation();
@@ -16,13 +17,64 @@ export default function DetalleCampana() {
   const navigate = useNavigate();
 
   const [adjuntos, setAdjuntos] = useState([]);
+  const [estaciones, setEstaciones] = useState([]);
   const [borrando, setBorrando] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedAdjunto, setSelectedAdjunto] = useState(null);
+  const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
     setAdjuntos(campaign?.adjuntos || []);
-  }, [campaign]);
+
+    // for key in campaign.estaciones if true we add it to the array of estaciones
+    const newEstaciones = [];
+
+    for (const key in campaign.estaciones) {
+      if (campaign.estaciones[key]) {
+        newEstaciones.push(key);
+      }
+    }
+    setEstaciones(newEstaciones);
+
+
+    if (!usuario && campaign.creadaPor) {
+      console.log('getting user');
+      try {
+        const userId = campaign.creadaPor;
+
+        const docRef = doc(db, 'users', userId);
+        getDoc(docRef).then((doc) => {
+          if (doc.exists()) {
+            setUsuario(doc.data());
+          } else {
+            console.log('No such document!');
+          }
+        }).catch((error) => {
+          console.log('Error getting document:', error);
+        });
+      } catch (error) {
+        console.log('Error getting document:', error);
+      }
+    }
+
+    if (!campaign || !campaign.id || !adjuntos || adjuntos.length === 0 || !campaign.adjuntos) {
+      return;
+    }
+
+    // we only update the doc if the adjuntos array has more items than the one in the doc
+    if (adjuntos.length > (campaign.adjuntos ? campaign.adjuntos.length : 0)) {
+      // we update the doc with new adjuntos
+      const campanaRef = doc(db, 'campaigns', campaign.id);
+      updateDoc(campanaRef, {
+        adjuntos
+      });
+
+      campaign.adjuntos = adjuntos;
+
+      console.log('Adjuntos actualizados correctamente');
+    }
+
+  }, []);
 
   const handleDeleteAdjunto = async (adjunto) => {
     if (borrando) {
@@ -65,8 +117,6 @@ export default function DetalleCampana() {
     setShowModal(false);
   }
 
-  // rest of your code
-
   return (
     <div className="overflow-x-hidden">
       <div className="header flex justify-between bg-gray-200">
@@ -89,7 +139,7 @@ export default function DetalleCampana() {
         </div>
       </div>
 
-      <div className="p-8 bg-gray-200 overflow-y-scroll overflow-x-hidden">
+      <div className="p-8 bg-gray-200 overflow-y-scroll overflow-x-hidden items-center flex flex-col w-full">
 
         <Title title={campaign.nombre} />
         <Card titulo= 'Metas:' descripcion={campaign.metas} />
@@ -100,21 +150,32 @@ export default function DetalleCampana() {
         <Card titulo = 'Presupuesto' descripcion={campaign.presupuesto} />
         <Card titulo = 'Producción' descripcion={campaign.produccion} />
         <Card titulo = 'Detalles de la Producción' descripcion={campaign.produccionDetalles} />
-        <Card titulo='Creada Por:' descripcion={campaign.creadaPor} />
+        <Card titulo='Creada Por:' descripcion={usuario && usuario.nombreCompleto ? usuario.nombreCompleto : campaign.creadaPor} />
 
-        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800">
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Estaciones:</h1>
-          {Object.keys(campaign.estaciones).map((estacion, index) => (
-            <p className="text-base text-gray-700 ml-5" key={index}>{estacion}: {campaign.estaciones[estacion] ? 'Si' : 'No'}</p>
-          ))}
+          <p className="text-base text-gray-700 ml-5">
+            {estaciones.map((estacion, index) => (
+              <span key={index}>
+                { estacion === "laraza" ? 
+                "La Raza" : estacion === "activa" ?
+                "Activa" : estacion === "love" ?
+                "Love" : estacion === "maxima" ?
+                "Maxima" : estacion }{index === estaciones.length - 1 ? '.' : index === estaciones.length - 2 ? ' y ' : ', '}</span>
+            ))}
+          </p>
         </div>
 
-        <div className="p-2 border border-gray-300 rounded-lg shadow-md bg-white pb-5 pt-5">
+        <div className="p-2 border border-gray-300 rounded-lg shadow-md bg-white pb-5 pt-5 w-full flex flex-col items-center">
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Adjuntos:</h1>
           
-          {borrando && <p className="text-base text-gray-700 ml-5">Borrando...</p>}
+          {borrando && <p className="text-base text-gray-500 ml-5 my-3">Borrando...</p>}
           
-          {adjuntos.length === 0 ? <div className="text-center p-20 text-base text-gray-500">No hay adjuntos</div> :
+          {adjuntos.length === 0 ? 
+              <NoAdjuntos 
+                adjuntos={adjuntos}
+                setAdjuntos={setAdjuntos}
+              /> :
             adjuntos.map((adjunto, index) => (
               <AdjuntoItem adjunto={adjunto} index={index} key={index} handleDeleteAdjunto={handleDeleteAdjunto}/>
             ))

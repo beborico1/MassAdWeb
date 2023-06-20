@@ -8,10 +8,10 @@ function Modal({ title, onClose, onConfirm, children }) {
         <div className='text-base mb-5 select-none'>{children}</div>
         <div className='flex justify-end'>
           <button className='px-4 py-2 border-none rounded-md ml-2 cursor-pointer bg-gray-500 hover:bg-gray-300 text-white' onClick={onClose}>
-            Cancel
+            Cancelar
           </button>
           <button className='px-4 py-2 border-none rounded-md ml-2 cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white' onClick={onConfirm}>
-            Confirm
+            Confirmar
           </button>
         </div>
       </div>

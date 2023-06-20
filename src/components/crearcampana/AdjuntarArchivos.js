@@ -1,14 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import { useDropzone } from 'react-dropzone';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { auth } from '../../helpers/firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { auth, storage } from '../../helpers/firebase';
 
 const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
-
-    const storage = getStorage();
 
     const onDrop = useCallback((acceptedFiles) => {
         setUploading(true);
