@@ -172,12 +172,15 @@ export default function DetalleCampana() {
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto</h1>
           <div className="flex flex-row items-center justify-between">
             <p className="text-base text-gray-700 ml-5 break-words">{campaign.presupuesto}</p>
-            <button
-              onClick={handlePagar}
-              className='text-adstream-500 hover:text-adstream-300 mr-4'
-            >
-              Pagar
-            </button>
+            { campaign.status !== 'Pagada' ?
+              <button
+                onClick={handlePagar}
+                className='text-adstream-500 hover:text-adstream-300 mr-4'
+              >
+                Pagar
+              </button> :
+              <p className="text-base text-gray-700 ml-5 break-words">Pagada</p>
+            }
           </div>
         </div>
 
