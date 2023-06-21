@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../helpers/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaInfoCircle } from 'react-icons/fa';
@@ -17,7 +17,6 @@ const Inicio = () => {
   const getCampaigns = () => {
     setLoading(true);
     
-    const db = getFirestore();
     const q = query(collection(db, "campaigns"), where("creadaPor", "==", auth.currentUser.uid));
   
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
