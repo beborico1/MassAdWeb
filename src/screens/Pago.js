@@ -1,27 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const ProductDisplay = () => {
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-      
-        const response = await fetch('https://adstreamserver-d962608709d6.herokuapp.com/create-checkout-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ price: 9999, name: "PUBLICIDAD" }),
-        });
-      
-        if (response.ok) {
-          console.log("response", response);
-          const { url } = await response.json();
-          console.log("url", url);
-          window.location = url;
-        } else {
-          const { message } = await response.json();
-          console.error(message);
-        }
-      };      
+     
   
     return (
       <section>

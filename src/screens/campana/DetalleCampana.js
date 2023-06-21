@@ -117,6 +117,26 @@ export default function DetalleCampana() {
     setShowModal(false);
   }
 
+  const handlePagar = async () => {
+    const response = await fetch('https://adstreamserver-d962608709d6.herokuapp.com/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ price: campaign.presupuesto, name: campaign.nombre, campaignId: campaign.id }),
+    });
+  
+    if (response.ok) {
+      console.log("response", response);
+      const { url } = await response.json();
+      console.log("url", url);
+      window.location = url;
+    } else {
+      const { message } = await response.json();
+      console.error(message);
+    }
+  }; 
+
   return (
     <div className="overflow-x-hidden">
       <div className="header flex justify-between bg-gray-200">
@@ -147,7 +167,19 @@ export default function DetalleCampana() {
         <Card titulo='Servicio:' descripcion={campaign.servicio} />
         <Card titulo='Status:' descripcion={campaign.status} />
         <Card titulo='Pauta:' descripcion={campaign.pauta} />
-        <Card titulo = 'Presupuesto' descripcion={campaign.presupuesto} />
+
+        <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto</h1>
+          <div className="flex flex-row items-center">
+            <p className="text-base text-gray-700 ml-5 break-words">{campaign.presupuesto}</p>
+            <button
+              onClick={handlePagar}
+            >
+              Pagar
+            </button>
+          </div>
+        </div>
+
         <Card titulo = 'Producción' descripcion={campaign.produccion} />
         <Card titulo = 'Detalles de la Producción' descripcion={campaign.produccionDetalles} />
         <Card titulo='Creada Por:' descripcion={usuario && usuario.nombreCompleto ? usuario.nombreCompleto : campaign.creadaPor} />

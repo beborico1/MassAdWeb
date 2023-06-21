@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
-import { auth } from '../helpers/firebase';
+import { getFirestore, collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../helpers/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaInfoCircle } from 'react-icons/fa';
 import Title from '../components/TitleComponent';
@@ -50,6 +50,52 @@ const Inicio = () => {
     console.log('Crear campaña con IA');
     navigate('/crear-campana-ai');
   };
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+
+    if (query.get("success")) {
+      //setMessage("Order placed! You will receive an email confirmation.");
+      // we get the parameter from the url named campana
+      const campanaId = query.get("campana");
+      console.log(campanaId);
+
+      // with the document from firestore that has the id campanaId
+      // we update the status to "pagada"
+      const docRef = doc(db, "campaigns", campanaId);
+      updateDoc(docRef, {
+        status: "Pagada"
+      });
+
+      const campaign = getDoc(docRef);
+      // we add id to the campaign object
+      campaign.id = campanaId;
+
+      // we navigate to detalle-campana
+      navigate('/detalle-campana', { state: { campaign } });
+    }
+
+    if (query.get("canceled")) {
+      // we get the parameter from the url named campana
+      const campanaId = query.get("campana");
+      console.log(campanaId);
+
+      // with the document from firestore that has the id campanaId
+      // we update the status to "pagada"
+      const docRef = doc(db, "campaigns", campanaId);
+      updateDoc(docRef, {
+        status: "Pago Cancelado"
+      });
+
+      const campaign = getDoc(docRef);
+      // we add id to the campaign object
+      campaign.id = campanaId;
+
+      // we navigate to detalle-campana
+      navigate('/detalle-campana', { state: { campaign } });
+    }
+  }, []);
 
   return (
     <div className="flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden">
