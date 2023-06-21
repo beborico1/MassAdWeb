@@ -12,6 +12,7 @@ import EditarCampana from './screens/campana/EditarCampana';
 import ProduccionSpot from './screens/ProduccionSpot';
 import PerfilUsuario from './screens/auth/PerfilUsuario';
 import CrearCampanaOriginal from './screens/campana/OriginalCrearCampana';
+import Pago from './screens/Pago';
 
 export default function App() {
   const [user, setUser] = React.useState(null);
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/editar-campana" element={user && userComplete ? <EditarCampana /> : <Navigate to="/inicio-sesion" />} />
           <Route path="/produccion-spot" element={user && userComplete ? <ProduccionSpot /> : <Navigate to="/inicio-sesion" />} />
           <Route path="/perfil-usuario" element={user && userComplete ? <PerfilUsuario /> : <Navigate to="/inicio-sesion" />} />
+          <Route path="/pago" element={<Pago />} />
         </Routes>
       </Router>
     </UserCompleteContext.Provider>

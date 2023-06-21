@@ -170,10 +170,11 @@ export default function DetalleCampana() {
 
         <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto</h1>
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center justify-between">
             <p className="text-base text-gray-700 ml-5 break-words">{campaign.presupuesto}</p>
             <button
               onClick={handlePagar}
+              className='text-adstream-500 hover:text-adstream-300 mr-4'
             >
               Pagar
             </button>
