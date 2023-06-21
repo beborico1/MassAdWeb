@@ -6,7 +6,6 @@ import { FaUser, FaInfoCircle } from 'react-icons/fa';
 import Title from '../components/TitleComponent';
 import ButtonComponent from '../components/ButtonComponent';
 import BigButtonComponent from '../components/BigButtonComponent';
-import MiComponente from '../components/MiComponente';
 // import ChatWidget from '../components/ChatWidget';
 
 const Inicio = () => {
@@ -88,8 +87,6 @@ const Inicio = () => {
           handleClick={handleCreateCampaignAI}
           bgColor="bg-blue-500 hover:bg-blue-300 mt-4"
         />
-
-        <MiComponente />
 
         {/* <ChatWidget /> */}
       </div>
