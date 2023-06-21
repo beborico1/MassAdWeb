@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { db } from '../helpers/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { FaCheckCircle, FaCross } from 'react-icons/fa';
 
 export default function Pago() {
     const [message, setMessage] = React.useState("");
@@ -13,7 +14,7 @@ export default function Pago() {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get("success")) {
-      setMessage("Pago exitoso!");
+      setMessage("¡Pago exitoso!");
       // we get the parameter from the url named campana
       const campanaId = query.get("campana");
       console.log(campanaId);
@@ -22,7 +23,7 @@ export default function Pago() {
       // we update the status to "pagada"
       const docRef = doc(db, "campaigns", campanaId);
       updateDoc(docRef, {
-        status: "Pagada"
+        pagada: true,
       });
 
       const campaign = getDoc(docRef);
@@ -42,7 +43,7 @@ export default function Pago() {
       // we update the status to "pagada"
       const docRef = doc(db, "campaigns", campanaId);
       updateDoc(docRef, {
-        status: "Pago Cancelado"
+        pagada: false,
       });
 
       const campaign = getDoc(docRef);
@@ -55,9 +56,22 @@ export default function Pago() {
     <div
         className="flex flex-col items-center justify-center h-screen"
     >
-        <p
-            className="text-2xl font-semibold text-center mb-4"
-        >{message}</p>
+        <div
+            className="flex flex-row items-center justify-center"
+        >
+            <p className="text-2xl font-semibold text-center mb-4">
+                {message}
+            </p>
+
+            {message === "¡Pago exitoso!" ? (
+                <FaCheckCircle size={40} className="text-green-500 ml-4" />
+            ) : ( message === "Pago cancelado" &&
+                <FaCross size={40} className="text-red-500 ml-4" />
+            )
+            }
+        </div>
+
+
         <button
             className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 flex justify-center items-center mt-4"
             onClick={() => navigate('/inicio')}

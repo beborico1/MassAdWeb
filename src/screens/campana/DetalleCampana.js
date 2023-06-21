@@ -5,7 +5,7 @@ import { deleteObject, ref } from 'firebase/storage';
 import { db, storage } from '../../helpers/firebase';
 import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Modal from '../../components/Modal';
-import { FaArrowLeft, FaPencilAlt, FaPlayCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaCheckCircle, FaPencilAlt, FaPlayCircle } from 'react-icons/fa';
 import Card from '../../components/Card';
 import Title from '../../components/TitleComponent';
 import NoAdjuntos from '../../components/NoAdjuntos';
@@ -171,9 +171,17 @@ export default function DetalleCampana() {
         <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
           <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto</h1>
           <div className="flex flex-row items-center justify-between">
-            <p className="text-base text-gray-700 ml-5 break-words">{campaign.presupuesto}</p>
-            { campaign.status === 'Pagada' ?
-               <p className="text-base text-gray-700 ml-5 break-words">Pagada</p>
+            <p className="text-base text-gray-700 ml-5 break-words">
+              {new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(campaign.presupuesto)} MXN
+            </p>
+
+            { campaign.pagada ?
+                <div
+                  className='flex flex-row items-center'
+                >
+                  <p className="text-base text-gray-500 ml-5 break-words select-none">Pagada</p>
+                  <FaCheckCircle size={16} className='text-green-500 mr-4 ml-2' />
+                </div>
                 :
                <button
                 onClick={handlePagar}
