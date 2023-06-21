@@ -64,9 +64,9 @@ export default function Pago() {
             </p>
 
             {message === "¡Pago exitoso!" ? (
-                <FaCheckCircle size={16} className="text-green-500 ml-4" />
+                <FaCheckCircle size={22} className="text-green-500 ml-4" />
             ) : ( message === "Pago cancelado" &&
-                <FaTimesCircle size={16} className="text-red-500 ml-4" /> 
+                <FaTimesCircle size={22} className="text-red-500 ml-4" /> 
             )
             }
         </div>

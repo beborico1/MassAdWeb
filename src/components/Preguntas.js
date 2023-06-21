@@ -24,6 +24,8 @@ export default function Preguntas() {
     const handleCallOpenAIAPI = async (prompt) => {
         console.log('handleCallOpenAIAPI');
         console.log('prompt', prompt);
+        console.log('process.env.REACT_APP_OPENAI_API_KEY', process.env.REACT_APP_OPENAI_API_KEY);
+        
         
         setLoading(true);
         
