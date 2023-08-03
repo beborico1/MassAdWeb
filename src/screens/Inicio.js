@@ -54,7 +54,7 @@ const Inicio = () => {
     <div className="flex w-full h-screen justify-center items-center p-8 bg-gray-200 overflow-y-hidden">
       <div className="flex flex-col items-center w-full max-w-3xl">
 
-        <button className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/perfil-usuario')}>
+        <button className="cursor-pointer bg-massad-500 hover:bg-massad-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/perfil-usuario')}>
           <FaUser size={20} className='mr-3'/> Ver Perfil
         </button>
 

@@ -13,7 +13,7 @@ export default function NoAdjuntos({adjuntos, setAdjuntos}) {
                 {!showAddAdjunto && "No hay adjuntos"}
             </span>
             <span
-                className="text-adstream-500 cursor-pointer hover:text-adstream-300"
+                className="text-massad-500 cursor-pointer hover:text-massad-300"
                 onClick={() => !showAddAdjunto ? setShowAddAdjunto(true) : setShowAddAdjunto(false)}
             >
                 {!showAddAdjunto ? "¿Deseas agregar uno?" : "Terminar"}

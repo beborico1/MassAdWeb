@@ -56,10 +56,10 @@ export default function UserInfo({usuario}) {
       <button
         onClick={handleClick}
         className={`absolute right-4 top-4 bg-transparent px-3 py-2 rounded-full hover:bg-gray-200 flex flex-row items-center justify-center transition-colors duration-200  
-          ${state === 'save' ? 'font-medium text-adstream-500 transition-colors duration-200' : 
+          ${state === 'save' ? 'font-medium text-massad-500 transition-colors duration-200' : 
             state === 'saving' ? 'text-gray-400 transition-colors duration-200' : 
             state === 'saved' ? 'text-green-500 transition-colors duration-200' : 
-            'text-adstream-500 transition-none duration-0'}`}
+            'text-massad-500 transition-none duration-0'}`}
       >
         {state === 'edit' && <><FaPencilAlt size={20} className='mr-0 md:mr-2'/><p>Editar</p></>}
         {state === 'save' && <><FaSave size={20} className='mr-0 md:mr-2'/><p>Guardar</p></>}

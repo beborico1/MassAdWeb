@@ -8,7 +8,7 @@ const AdjuntoItem = ({ adjunto, index, handleDeleteAdjunto }) => {
         href={adjunto.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-adstream-500">
+        className="text-massad-500">
         Ver archivo adjunto {index + 1}
       </a>
 

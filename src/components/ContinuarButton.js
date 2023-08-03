@@ -3,7 +3,7 @@ import { FaArrowRight } from 'react-icons/fa';
 
 const ContinuarButton = ({loading, etapa, numeroDeEtapas, title, handleContinuar, loadingText, bgColor}) => {
   const baseClasses = "p-2 text-white border-none rounded-md cursor-pointer text-xl font-semibold shadow-md hover:shadow-xl w-11/12 max-w-xl mb-3 mt-3 h-12 box-border";
-  const backgroundColor = bgColor ? bgColor : 'bg-adstream-500 hover:bg-adstream-300';
+  const backgroundColor = bgColor ? bgColor : 'bg-massad-500 hover:bg-massad-300';
   
   const [dots, setDots] = useState(0);
 

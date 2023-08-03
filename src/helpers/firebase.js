@@ -7,9 +7,9 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyABHXaSrBWwhKITZezd3gdnLgT_1z4u9-M",
-    authDomain: "adstream-f1c89.firebaseapp.com",
-    projectId: "adstream-f1c89",
-    storageBucket: "adstream-f1c89.appspot.com",
+    authDomain: "massad-f1c89.firebaseapp.com",
+    projectId: "massad-f1c89",
+    storageBucket: "massad-f1c89.appspot.com",
     messagingSenderId: "322792723220",
     appId: "1:322792723220:web:0d608b72200cc8004d6801",
     measurementId: "G-G7PT01B3PD"

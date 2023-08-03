@@ -118,7 +118,7 @@ export default function DetalleCampana() {
   }
 
   const handlePagar = async () => {
-    const response = await fetch('https://adstreamserver-d962608709d6.herokuapp.com/create-checkout-session', {
+    const response = await fetch('https://massadserver-d962608709d6.herokuapp.com/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -141,18 +141,18 @@ export default function DetalleCampana() {
     <div className="overflow-x-hidden">
       <div className="header flex justify-between bg-gray-200">
         <div className="left flex">
-          <button onClick={() => navigate('/inicio')} className='px-2 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+          <button onClick={() => navigate('/inicio')} className='px-2 py-2 m-2 text-base rounded-md bg-massad-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-massad-300'>
             <FaArrowLeft size={20} className='mr-0 md:mr-2'/>
             <span className="hidden md:inline">Inicio</span>
           </button>
         </div>
         <div className="right flex">
-          <button onClick={() => navigate('/editar-campana', { state: { campaign } })} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+          <button onClick={() => navigate('/editar-campana', { state: { campaign } })} className='px-10 py-2 m-2 text-base rounded-md bg-massad-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-massad-300'>
             <FaPencilAlt size={20} className='mr-0 md:mr-2'/>
             <span className="hidden md:inline">Editar</span>
           
           </button>
-          <button onClick={() => navigate('/produccion-spot')} className='px-10 py-2 m-2 text-base rounded-md bg-adstream-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-adstream-300'>
+          <button onClick={() => navigate('/produccion-spot')} className='px-10 py-2 m-2 text-base rounded-md bg-massad-500 border-none text-white cursor-pointer transition duration-300 flex justify-center items-center hover:bg-massad-300'>
             <FaPlayCircle size={20} className='mr-0 md:mr-2'/>
             <span className="hidden md:inline">Produccion Spot</span>
           </button>
@@ -169,7 +169,7 @@ export default function DetalleCampana() {
         <Card titulo='Pauta:' descripcion={campaign.pauta} />
 
         <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Presupuesto</h1>
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-massad-500 select-none'>Presupuesto</h1>
           <div className="flex flex-row items-center justify-between">
             <p className="text-base text-gray-700 ml-5 break-words">
               {new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(campaign.presupuesto)} MXN
@@ -185,7 +185,7 @@ export default function DetalleCampana() {
                 :
                <button
                 onClick={handlePagar}
-                className='text-adstream-500 hover:text-adstream-300 mr-4'
+                className='text-massad-500 hover:text-massad-300 mr-4'
               >
                 Pagar
               </button>
@@ -198,7 +198,7 @@ export default function DetalleCampana() {
         <Card titulo='Creada Por:' descripcion={usuario && usuario.nombreCompleto ? usuario.nombreCompleto : campaign.creadaPor} />
 
         <div className="p-2 border border-gray-300 rounded-lg mb-6 shadow-md bg-white pb-5 pt-5 text-gray-800 w-full">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Estaciones:</h1>
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-massad-500 select-none'>Estaciones:</h1>
           <p className="text-base text-gray-700 ml-5">
             {estaciones.map((estacion, index) => (
               <span key={index}>
@@ -212,7 +212,7 @@ export default function DetalleCampana() {
         </div>
 
         <div className="p-2 border border-gray-300 rounded-lg shadow-md bg-white pb-5 pt-5 w-full flex flex-col items-center">
-          <h1 className='text-2xl mb-2 ml-5 mr-5 text-adstream-500 select-none'>Adjuntos:</h1>
+          <h1 className='text-2xl mb-2 ml-5 mr-5 text-massad-500 select-none'>Adjuntos:</h1>
           
           {borrando && <p className="text-base text-gray-500 ml-5 my-3">Borrando...</p>}
           

@@ -265,7 +265,7 @@ export default function Registro() {
 
       <p className='m-3 select-none'>o</p>
 
-      <button onClick={handleIniciarSesion} className="bg-transparent border-none text-adstream-600 cursor-pointer hover:underline hover:bg-transparent">
+      <button onClick={handleIniciarSesion} className="bg-transparent border-none text-massad-600 cursor-pointer hover:underline hover:bg-transparent">
         Iniciar Sesión 
       </button>
 

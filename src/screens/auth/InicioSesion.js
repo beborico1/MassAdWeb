@@ -97,7 +97,7 @@ const InicioSesion = () => {
       </div>
 
       <button
-        className="bg-transparent border-none text-adstream-600 cursor-pointer hover:underline hover:bg-transparent"
+        className="bg-transparent border-none text-massad-600 cursor-pointer hover:underline hover:bg-transparent"
         onClick={handleRegister}
       >
         Registrarse

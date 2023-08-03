@@ -59,7 +59,7 @@ export default function ChatWidget() {
     <div className="fixed bottom-5 right-5 flex flex-col items-end">
       <button
         onClick={toggleChatWindow}
-        className="rounded-full h-12 w-12 bg-adstream-500 flex justify-center items-center shadow-sm mb-2"
+        className="rounded-full h-12 w-12 bg-massad-500 flex justify-center items-center shadow-sm mb-2"
       >
         {isOpen ? (
           <FaTimes size={20} className="text-white transform" />
@@ -74,7 +74,7 @@ export default function ChatWidget() {
               <div
                 ref={messagesEndRef}
                 key={index}
-                className="self-end bg-adstream-200 text-black text-sm rounded-lg px-3 py-2 mb-2"
+                className="self-end bg-massad-200 text-black text-sm rounded-lg px-3 py-2 mb-2"
               >
                 {msg}
               </div>
@@ -87,7 +87,7 @@ export default function ChatWidget() {
             onChange={(e) => setMessage(e.target.value)}
           />
           <button
-            className="bg-adstream-500 text-white p-2 rounded w-full"
+            className="bg-massad-500 text-white p-2 rounded w-full"
             onClick={sendMessage}
           >
             Enviar

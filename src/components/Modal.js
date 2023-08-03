@@ -10,7 +10,7 @@ function Modal({ title, onClose, onConfirm, children }) {
           <button className='px-4 py-2 border-none rounded-md ml-2 cursor-pointer bg-gray-500 hover:bg-gray-300 text-white' onClick={onClose}>
             Cancelar
           </button>
-          <button className='px-4 py-2 border-none rounded-md ml-2 cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white' onClick={onConfirm}>
+          <button className='px-4 py-2 border-none rounded-md ml-2 cursor-pointer bg-massad-500 hover:bg-massad-300 text-white' onClick={onConfirm}>
             Confirmar
           </button>
         </div>

@@ -71,12 +71,12 @@ const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
     }  
 
     return (
-        <div {...getRootProps()} className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-300 rounded bg-gray-100 cursor-pointer transition-colors ease-in-out duration-300 hover:border-adstream-500 w-11/12 max-w-xl">
+        <div {...getRootProps()} className="flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-300 rounded bg-gray-100 cursor-pointer transition-colors ease-in-out duration-300 hover:border-massad-500 w-11/12 max-w-xl">
             <input {...getInputProps()} />
             {
                 isDragActive ?
                 <p>Suelta los archivos aquí ...</p> :
-                <button disabled={uploading} className="mt-2 px-5 py-2 bg-adstream-500 text-white font-medium rounded cursor-pointer transition-colors duration-300 hover:bg-adstream-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
+                <button disabled={uploading} className="mt-2 px-5 py-2 bg-massad-500 text-white font-medium rounded cursor-pointer transition-colors duration-300 hover:bg-massad-300 disabled:bg-gray-300 disabled:cursor-not-allowed">
                     Adjuntar archivos
                 </button>
             }
@@ -88,7 +88,7 @@ const AdjuntarArchivos = ({ adjuntos, setAdjuntos }) => {
                     </p>
                     <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden mt-2.5">
                         <div 
-                            className="h-full bg-adstream-500" 
+                            className="h-full bg-massad-500" 
                             style={{ width: `${transferred.toFixed(2)}%` }}
                         />
                     </div>

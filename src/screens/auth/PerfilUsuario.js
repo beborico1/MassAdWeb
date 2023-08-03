@@ -54,12 +54,12 @@ const PerfilUsuario = () => {
         <p className="text-gray-700 text-lg my-8 select-none">Cargando informacion de usuario...</p>
       }
 
-      <button className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/inicio')}>
+      <button className="cursor-pointer bg-massad-500 hover:bg-massad-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 absolute top-2 right-2 flex justify-center items-center" onClick={() => navigate('/inicio')}>
         <FaRegListAlt size={20} style={{ marginRight: '10px' }} />
         Ver Campañas
       </button>
   
-      <button className="bg-adstream-500 hover:bg-adstream-300 text-white py-4 px-8 text-center rounded-md cursor-pointer transition duration-400 text-xl font-semibold shadow-md flex flex-row items-center" onClick={handleCerrarSesion}>
+      <button className="bg-massad-500 hover:bg-massad-300 text-white py-4 px-8 text-center rounded-md cursor-pointer transition duration-400 text-xl font-semibold shadow-md flex flex-row items-center" onClick={handleCerrarSesion}>
         Cerrar Sesión
         <FaSignOutAlt size={20} style={{ marginLeft: '10px' }} />
       </button>

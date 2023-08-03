@@ -73,7 +73,7 @@ export default function Pago() {
 
 
         <button
-            className="cursor-pointer bg-adstream-500 hover:bg-adstream-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 flex justify-center items-center mt-8"
+            className="cursor-pointer bg-massad-500 hover:bg-massad-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 flex justify-center items-center mt-8"
             onClick={() => navigate('/inicio')}
         >
             Volver a Inicio

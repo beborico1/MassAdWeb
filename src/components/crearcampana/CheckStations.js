@@ -18,7 +18,7 @@ const CheckStations = ({ stations, handleCheck }) => {
                         type="checkbox"
                         checked={stations.activa}
                         onChange={() => handleCheck('activa')}
-                        className="form-checkbox h-5 w-5 text-adstream-500 space-x-2"
+                        className="form-checkbox h-5 w-5 text-massad-500 space-x-2"
                     />
                     <span className="text-gray-900 ml-2">Activa 89.7 FM</span>
                 </label>
