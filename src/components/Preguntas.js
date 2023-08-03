@@ -14,7 +14,6 @@ export default function Preguntas() {
     const [respuestas, setRespuestas] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [seAcabo, setSeAcabo] = useState(false);
     const [generandoCampaña, setGenerandoCampaña] = useState(false);
 
     const navigate = useNavigate();
@@ -97,13 +96,13 @@ Y te responde: ${respuestasParametro[index]}.`;
         console.log(preguntas,preguntas.length);
 
         // Si la ultima respuesta es undefined o null, no se genera la pregunta
-        if (preguntas.length != 0 && !error && (respuestasParametro[respuestasParametro.length - 1] === undefined || respuestasParametro[respuestasParametro.length - 1] === null)) {
+        if (preguntas.length !== 0 && !error && (respuestasParametro[respuestasParametro.length - 1] === undefined || respuestasParametro[respuestasParametro.length - 1] === null)) {
             toast.error('Por favor, ingresa una respuesta.');
             return;
         }
 
         // respuestas y preguntas debene tener la misma longitud si no no se genera la pregunta
-        if (preguntas.length != 0 && !error && (respuestasParametro.length !== preguntas.length)) {
+        if (preguntas.length !== 0 && !error && (respuestasParametro.length !== preguntas.length)) {
             toast.error('Por favor, ingresa una respuesta.');
             return;
         }
@@ -259,7 +258,6 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
                 };
 
              setGenerandoCampaña(false);
-             setSeAcabo(true);
              setLoading(false);
              navigate('/detalle-campana', { state: { campaign } });
         } catch (error) {

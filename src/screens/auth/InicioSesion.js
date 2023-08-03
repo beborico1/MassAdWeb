@@ -60,7 +60,7 @@ const InicioSesion = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center bg-gray-200">
-      <img src={require('../../assets/logo.png')} alt="Logo" className="h-32" />
+      <img src={require('../../assets/logo.png')} alt="Logo" className="h-16 mb-3" />
 
       <Title title="Inicio de Sesión" />
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, where, onSnapshot, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../helpers/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaInfoCircle } from 'react-icons/fa';

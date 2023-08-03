@@ -14,7 +14,6 @@ import SelectComponent from '../../components/SelectComponent';
 import Title from '../../components/TitleComponent';
 import TextAreaComponent from '../../components/TextAreaComponent';
 import TextInputComponent from '../../components/TextInputComponent';
-import BigButtonComponent from '../../components/BigButtonComponent';
 import { toast } from 'react-toastify';
 
 export default function EditarCampana() {
@@ -95,7 +94,7 @@ export default function EditarCampana() {
           toast.error('Debes seleccionar una opción');
           return;
         }
-        if (spotProduction == "Sí" && !spotProductionDetails) {
+        if (spotProduction === "Sí" && !spotProductionDetails) {
           toast.error('Debes proporcionar detalles sobre tus necesidades de producción');
           return;
         }
