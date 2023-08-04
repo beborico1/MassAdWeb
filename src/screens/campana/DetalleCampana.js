@@ -118,7 +118,7 @@ export default function DetalleCampana() {
   }
 
   const handlePagar = async () => {
-    const response = await fetch('https://massadserver-d962608709d6.herokuapp.com/create-checkout-session', {
+    const response = await fetch('https://adstreamserver-d962608709d6.herokuapp.com/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

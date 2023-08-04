@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import Title from '../components/TitleComponent'
+import TextToSpeechComponent from '../components/TextToSpeechComponent'
 
 const ProduccionSpot = () => {
   return (
@@ -13,6 +14,7 @@ const ProduccionSpot = () => {
       <p className="text-center text-xl font-semibold text-gray-600 select-none">
         Pronto en esta seccion podras generar tus propios spots.
       </p>
+      <TextToSpeechComponent />
     </div>
   )
 }
