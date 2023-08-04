@@ -27,11 +27,11 @@ const CheckStations = ({ stations, handleCheck }) => {
                 <label className="flex items-center mb-2">
                     <input
                         type="checkbox"
-                        checked={stations.laraza}
-                        onChange={() => handleCheck('laraza')}
+                        checked={stations.sonika}
+                        onChange={() => handleCheck('sonika')}
                         className="form-checkbox h-5 w-5 text-blue-600 space-x-2"
                     />
-                    <span className="text-gray-900 ml-2">LaRaza 105.1 FM</span>
+                    <span className="text-gray-900 ml-2">Sonika 105.1 FM</span>
                 </label>
                 <label className="flex items-center">
                     <input

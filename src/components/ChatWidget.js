@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
 import { FaRegComments, FaTimes } from 'react-icons/fa';
+import { collection, addDoc, query, onSnapshot, orderBy, Timestamp, setDoc, getDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../helpers/firebase';
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,51 +10,59 @@ export default function ChatWidget() {
 
   const messagesEndRef = React.useRef(null);
 
+  const uid = auth.currentUser.uid;
+
   const toggleChatWindow = () => {
     setIsOpen(!isOpen);
   };
 
   const sendMessage = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/send-message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: '+526622271342',
-          body: message,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.messageSid);
-        setMessages((messages) => [...messages, message]);
-        setMessage('');
-      } else {
-        console.log('Error sending message');
-      }
-    } catch (error) {
-      console.error('Error fetching:', error);
-    }
-  };
-
-  useEffect(() => {
-    const socket = io('http://localhost:3001');
-
-    socket.on('newMessage', (message) => {
-      setMessages((messages) => [...messages, message.body]);
+    await addDoc(collection(db, `conversations/${uid}/messages`), {
+      text: message,
+      userId: uid, // Asegúrate de tener acceso al usuario actual
+      createdAt: Timestamp.now(),
     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+    setMessage('');
+    setMessages([...messages, message]);
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, `conversations/${uid}/messages`), orderBy('createdAt')),
+      (snapshot) => {
+        let newMessages = [];
+
+        snapshot.forEach((doc) => {
+          newMessages.push(doc.data());
+        });
+
+        setMessages(newMessages);
+      }
+    );
+
+    return unsubscribe;
+  }, [uid]);
+
+  useEffect(() => {
+    const checkIfConversationExists = async () => {
+      const docRef = doc(db, 'conversations', uid);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        await setDoc(docRef, {
+          createdAt: Timestamp.now(),
+        });
+      }
+    }
+
+    checkIfConversationExists();
+  }, [uid]);
+
 
   return (
     <div className="fixed bottom-5 right-5 flex flex-col items-end">
@@ -74,9 +83,9 @@ export default function ChatWidget() {
               <div
                 ref={messagesEndRef}
                 key={index}
-                className="self-end bg-massad-200 text-black text-sm rounded-lg px-3 py-2 mb-2"
+                className={`${msg.userId === uid ? "self-end bg-massad-200" : "self-start bg-gray-200"} text-black text-sm rounded-lg px-3 py-2 mb-2`}
               >
-                {msg}
+                {msg.text}
               </div>
             ))}
           </div>

@@ -165,7 +165,7 @@ Con base en esta conversación que acabas de tener, generas una campaña publici
 La respuesta debe ser con el formato siguiente:
 Nombre de la campaña: [Nombre de la campaña (Texto), ejemplo: Siente VerdeVida: Tu Elección Sostenible]
 Metas de la campaña: [Metas de la campaña (Texto), ejemplo: Atraer Nuevos Clientes: Incrementar el tráfico en nuestra tienda en línea y las ventas en un 25% durante y después de la duración de la campaña. Esto se puede medir a través del análisis de las métricas de la web y los datos de ventas.]
-Estaciones: [Estaciones, separadas por comas sin espacios en minúsculas, (las opciones son maxima, activa, laraza y love) debes elegir al menos una. Ejemplo: maxima, activa]
+Estaciones: [Estaciones, separadas por comas sin espacios en minúsculas, (las opciones son maxima, activa, sonika y love) debes elegir al menos una. Ejemplo: maxima, activa]
 Presupuesto: [Presupuesto en pesos mexicanos (Número del 0 al 100000), ejemplo: 60000]
 Detalles de Producción del Spot de Radio: [Detalles de Producción del Spot de Radio (Texto), ejemplo: Spot \"El Amanecer Verde\": Este anuncio comienza con el sonido de un despertador y el bullicio matutino de una casa. Luego, una voz en off explica cómo cada decisión que tomamos, incluso desde el momento en que nos levantamos, puede ayudar al medio ambiente. Se mencionan los productos de limpieza y cuidado personal de VerdeVida, destacando su sostenibilidad y los beneficios para la salud. El anuncio termina con el sonido de pájaros cantando y la frase: \"VerdeVida: Comienza tu día de la forma más verde\".]
 Especificaciones de la pauta: [Especificaciones de la pauta (Texto), ejemplo: Propuesta "Vida Verde en cada Hogar":
@@ -218,7 +218,7 @@ Esta campaña se centraría en los productos de limpieza para el hogar de VerdeV
             const stations = {
                 maxima: estaciones.includes('maxima'),
                 activa: estaciones.includes('activa'),
-                laraza: estaciones.includes('laraza'),
+                sonika: estaciones.includes('sonika'),
                 love: estaciones.includes('love')
             };
 

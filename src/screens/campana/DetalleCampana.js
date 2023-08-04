@@ -202,8 +202,8 @@ export default function DetalleCampana() {
           <p className="text-base text-gray-700 ml-5">
             {estaciones.map((estacion, index) => (
               <span key={index}>
-                { estacion === "laraza" ? 
-                "La Raza" : estacion === "activa" ?
+                { estacion === "sonika" ? 
+                "Sonika " : estacion === "activa" ?
                 "Activa" : estacion === "love" ?
                 "Love" : estacion === "maxima" ?
                 "Maxima" : estacion }{index === estaciones.length - 1 ? '.' : index === estaciones.length - 2 ? ' y ' : ', '}</span>

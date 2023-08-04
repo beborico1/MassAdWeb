@@ -37,7 +37,7 @@ export default function EditarCampana() {
   const [stations, setStations] = useState(campaign.estaciones || {
     maxima: false,
     activa: false,
-    laraza: false,
+    sonika: false,
     love: false
   });
 
@@ -83,7 +83,7 @@ export default function EditarCampana() {
       } else if (etapa === 4 && !selectedService) {
         toast.error('El servicio es obligatorio');
         return;
-      } else if (etapa === 5 && (!stations.maxima && !stations.activa && !stations.laraza && !stations.love)) {
+      } else if (etapa === 5 && (!stations.maxima && !stations.activa && !stations.sonika && !stations.love)) {
         toast.error('Debes seleccionar al menos una estación');
         return;
       } else if (etapa === 6 && !budget) {
