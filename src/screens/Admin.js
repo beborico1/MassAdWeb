@@ -57,6 +57,10 @@ export default function Admin() {
     const sendMessage = async (e) => {
         e.preventDefault();
 
+        if (!newMessage.trim()) {
+            return;
+        }
+
         await addDoc(collection(db, `conversations/${currentConversation.id}/messages`), {
             text: newMessage,
             createdAt: serverTimestamp(),

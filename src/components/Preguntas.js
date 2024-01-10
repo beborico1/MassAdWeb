@@ -18,7 +18,7 @@ export default function Preguntas() {
 
     const navigate = useNavigate();
 
-    const numPreguntas = 3;
+    const numPreguntas = 10;
 
     const handleCallOpenAIAPI = async (prompt) => {
         console.log('handleCallOpenAIAPI');

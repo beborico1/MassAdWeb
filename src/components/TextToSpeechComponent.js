@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaPlay } from 'react-icons/fa';
 
 const TextToSpeechComponent = () => {
   const maleVoices = [
@@ -68,9 +69,9 @@ const TextToSpeechComponent = () => {
       </select>
       <button
         onClick={synthesizeSpeech}
-        className='cursor-pointer bg-massad-500 hover:bg-massad-300 text-white py-2 px-8 text-center text-base font-semibold rounded-md transition duration-400 flex justify-center items-center ml-8'
+        className='rounded-full h-12 w-12 bg-massad-500 flex justify-center items-center shadow-sm ml-4 text-white'
       >
-        Leer en voz alta
+        <FaPlay size={20} />
       </button>
     </div>
   );

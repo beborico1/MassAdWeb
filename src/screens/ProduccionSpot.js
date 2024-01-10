@@ -11,9 +11,6 @@ const ProduccionSpot = () => {
         </button>
 
       <Title title="Produccion Spot" />
-      <p className="text-center text-xl font-semibold text-gray-600 select-none">
-        Pronto en esta seccion podras generar tus propios spots.
-      </p>
       <TextToSpeechComponent />
     </div>
   )

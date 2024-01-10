@@ -17,14 +17,17 @@ export default function ChatWidget() {
   };
 
   const sendMessage = async () => {
-    await addDoc(collection(db, `conversations/${uid}/messages`), {
+    if (message.trim() === '') return; // Asegúrate de que el mensaje no esté vacío
+
+    const newMessage = {
       text: message,
-      userId: uid, // Asegúrate de tener acceso al usuario actual
+      userId: uid,
       createdAt: Timestamp.now(),
-    });
+    };
+
+    await addDoc(collection(db, `conversations/${uid}/messages`), newMessage);
 
     setMessage('');
-    setMessages([...messages, message]);
   };
 
   useEffect(() => {
@@ -81,13 +84,13 @@ export default function ChatWidget() {
           <div className="flex flex-col overflow-y-scroll h-64">
             {messages.map((msg, index) => (
               <div
-                ref={messagesEndRef}
                 key={index}
                 className={`${msg.userId === uid ? "self-end bg-massad-200" : "self-start bg-gray-200"} text-black text-sm rounded-lg px-3 py-2 mb-2`}
               >
                 {msg.text}
               </div>
             ))}
+            <div ref={messagesEndRef}></div> {/* Coloca la referencia aquí */}
           </div>
           <textarea
             className="w-full border p-2 rounded mb-2"
